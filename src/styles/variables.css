@@ -1,0 +1,15 @@
+:root {
+    --container-width: 1620px;
+    --container-padding-x: 24px;
+    --container-padding-mobile-x: 16px;
+
+    --font-family: 'Inter', sans-serif;
+    --font-second: 'Irish Grover', system-ui;
+
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-white-dark: #F0F0F0;
+    --color-yellow: #F9EB9F;
+
+    --transition-duration: 0.2s;
+}
