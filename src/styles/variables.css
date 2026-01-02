@@ -6,10 +6,13 @@
     --font-family: 'Inter', sans-serif;
     --font-second: 'Irish Grover', system-ui;
 
+    --border-radius: 12px;
+
     --color-white: #ffffff;
     --color-black: #000000;
     --color-white-dark: #F0F0F0;
     --color-yellow: #F9EB9F;
+    --color-yellow-dark: #ecdc7f;
 
     --transition-duration: 0.2s;
 }

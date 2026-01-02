@@ -26,6 +26,13 @@
                         />
                     </div>
                 </router-link>
+                <button class="header__menu">
+                    <img
+                        src="../assets/img/header/menu.png"
+                        alt="Меню"
+                        class="menu__img"
+                    />
+                </button>
             </div>
         </div>
     </header>
@@ -34,10 +41,18 @@
 <style scoped>
 .header {
     top: 0;
-    padding: 25px 0px;
+    padding: 20px 0px;
     background-color: var(--color-yellow);
     position: relative;
     animation: fromTopToBottom 0.5s;
+}
+
+.menu__img {
+    width: 30px;
+}
+
+.header__menu {
+    display: none;
 }
 
 .header__content {
@@ -73,6 +88,16 @@
 
 .profile__img {
     width: 40px;
+}
+
+@media (max-width: 1800px) {
+    .profile__img {
+        display: none;
+    }
+
+    .header__menu {
+        display: block;
+    }
 }
 
 @media (max-width: 1024px) {
