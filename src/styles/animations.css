@@ -7,3 +7,23 @@
         top: 0px;
     }
 }
+
+@keyframes fromLeftToRight {
+    0% {
+        left: -100px;
+    }
+
+    100% {
+        left: 0px;
+    }
+}
+
+@keyframes fromRightToLeft {
+    0% {
+        right: -500px;
+    }
+
+    100% {
+        right: 0px;
+    }
+}

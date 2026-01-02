@@ -1,6 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import BurgerMenu from './BurgerMenu.vue'
+
+const isOpen = ref<boolean>(false)
+
+const toggleOpen = () => {
+    isOpen.value = !isOpen.value
+}
+</script>
 
 <template>
+    <BurgerMenu v-if="isOpen" :toggleOpen="toggleOpen" />
     <header class="header">
         <div class="container">
             <div class="header__content">
@@ -26,10 +36,10 @@
                         />
                     </div>
                 </router-link>
-                <button class="header__menu">
+                <button class="header__menu" @click="toggleOpen">
                     <img
                         src="../assets/img/header/menu.png"
-                        alt="Меню"
+                        alt="Открыть меню"
                         class="menu__img"
                     />
                 </button>

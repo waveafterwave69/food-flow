@@ -74,6 +74,8 @@ const cuisines = [
     justify-content: space-between;
     height: 80vh;
     width: 420px;
+    animation: fromLeftToRight 0.5s;
+    position: relative;
 }
 
 .panel__title {
