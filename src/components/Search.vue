@@ -66,4 +66,73 @@ const searchValue = ref<string>('')
 .input__img {
     width: 20px;
 }
+
+@media (max-width: 1024px) {
+    .search {
+        column-gap: 10px;
+        width: 100%;
+    }
+
+    .search__button {
+        padding: 10px;
+    }
+
+    .search__button img {
+        width: 23px;
+    }
+
+    .input__content {
+        font-size: 20px;
+        padding: 10px 20px;
+        width: 100%;
+        column-gap: 15px;
+    }
+
+    .input__img {
+        width: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .search {
+        column-gap: 10px;
+    }
+
+    .search__button {
+        padding: 10px;
+    }
+
+    .search__button img {
+        width: 20px;
+    }
+
+    .input__content {
+        font-size: 18px;
+        padding: 10px 20px;
+        column-gap: 15px;
+    }
+
+    .input__img {
+        width: 20px;
+    }
+}
+
+@media (max-width: 425px) {
+    .search {
+        column-gap: 8px;
+    }
+
+    .search__button {
+        padding: 10px;
+    }
+
+    .search__button img {
+        width: 20px;
+    }
+
+    .input__content {
+        font-size: 18px;
+        padding: 10px 15px;
+    }
+}
 </style>

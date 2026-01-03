@@ -162,6 +162,10 @@ const toggleOpen = () => {
     .profile__img {
         width: 30px;
     }
+
+    .menu__img {
+        width: 25px;
+    }
 }
 
 @media (max-width: 425px) {
@@ -180,6 +184,10 @@ const toggleOpen = () => {
 
     .logo__text h3 {
         display: none;
+    }
+
+    .menu__img {
+        width: 23px;
     }
 }
 </style>

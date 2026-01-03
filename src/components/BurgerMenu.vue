@@ -134,6 +134,12 @@ defineProps<Props>()
         font-size: 17px;
         color: var(--color-black);
     }
+
+    .close__btn {
+        width: 20px;
+        top: 29px;
+        right: 27px;
+    }
 }
 
 @media (max-width: 425px) {
@@ -162,6 +168,12 @@ defineProps<Props>()
     .list__item span {
         font-size: 17px;
         color: var(--color-black);
+    }
+
+    .close__btn {
+        width: 20px;
+        top: 23px;
+        right: 18px;
     }
 }
 </style>
