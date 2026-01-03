@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 interface CategoryItem {
     codeName: string
     title: string
@@ -29,6 +31,14 @@ const cuisines = [
         codeName: 'Indian',
     },
 ]
+
+const selectedCategory = ref<string>('')
+const selectedCuisine = ref<string>('All')
+
+const changeCategory = (category: CategoryItem) => {
+    selectedCategory.value =
+        selectedCategory.value === category.codeName ? '' : category.codeName
+}
 </script>
 
 <template>
@@ -42,16 +52,31 @@ const cuisines = [
                         <li
                             class="list__item"
                             v-for="category in categoryItems"
+                            :key="category.codeName"
                         >
-                            <input type="checkbox" /> {{ category.title }}
+                            <input
+                                type="checkbox"
+                                :value="category.codeName"
+                                :checked="
+                                    selectedCategory === category.codeName
+                                "
+                                @change="changeCategory(category)"
+                            />
+                            {{ category.title }}
                         </li>
                     </ul>
                 </div>
                 <div class="panel__block panel__block-cuisines">
                     <div class="block__title">Кухня:</div>
-                    <select name="cuisines" id="cuisines" class="block__select">
+                    <select
+                        name="cuisines"
+                        id="cuisines"
+                        class="block__select"
+                        v-model="selectedCuisine"
+                    >
                         <option
                             v-for="cuisine in cuisines"
+                            :key="cuisine.codeName"
                             :value="cuisine.codeName"
                         >
                             {{ cuisine.country }}
@@ -105,7 +130,7 @@ const cuisines = [
     border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
-    row-gap: 12px;
+    row-gap: 16px;
 }
 
 .list__item {
@@ -114,6 +139,12 @@ const cuisines = [
     column-gap: 10px;
     font-weight: 200;
     font-size: 18px;
+}
+
+.list__item input {
+    cursor: pointer;
+    width: 17px;
+    height: 17px;
 }
 
 .block__select {
