@@ -180,4 +180,80 @@ defineProps<Props>()
         animation: none;
     }
 }
+
+@media (max-width: 768px) {
+    .panel {
+        padding: 30px 25px;
+    }
+
+    .panel__title {
+        max-width: 130px;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .panel__block-category {
+        margin-bottom: 40px;
+    }
+
+    .block__title {
+        font-size: 22px;
+        margin-bottom: 5px;
+    }
+
+    .block__list {
+        padding: 12px 20px;
+        row-gap: 15px;
+    }
+
+    .list__item {
+        column-gap: 8px;
+        font-size: 18px;
+    }
+
+    .list__item input {
+        cursor: pointer;
+        width: 16px;
+        height: 16px;
+    }
+
+    .block__select {
+        width: 100%;
+        padding: 12px 20px;
+    }
+
+    .panel__button {
+        font-size: 18px;
+        padding: 13px;
+    }
+}
+
+@media (max-width: 425px) {
+    .panel {
+        padding: 30px 25px;
+    }
+
+    .panel__title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .panel__block-category {
+        margin-bottom: 30px;
+    }
+
+    .block__title {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    .list__item {
+        font-size: 16px;
+    }
+
+    .panel__button {
+        font-size: 18px;
+        padding: 12px;
+    }
+}
 </style>
