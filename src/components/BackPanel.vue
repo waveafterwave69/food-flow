@@ -1,21 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
-interface CategoryItem {
-    codeName: string
-    title: string
-}
-
-const categoryItems: CategoryItem[] = [
-    { codeName: 'Beef', title: 'Говядина' },
-    { codeName: 'Breakfast', title: 'Завтрак' },
-    { codeName: 'Chicken', title: 'Курица' },
-    { codeName: 'Dessert', title: 'Десерт' },
-    { codeName: 'Miscellaneous', title: 'Разнообразный' },
-    { codeName: 'Pasta', title: 'Паста' },
-    { codeName: 'Seafood', title: 'Морепродукты' },
-    { codeName: 'Vegetarian', title: 'Вегетарианский' },
-]
+import { useFoodStore } from '@/stores/foodStore'
+import { CategoryItem } from '@/types'
 
 const cuisines = [
     {
@@ -32,13 +17,24 @@ const cuisines = [
     },
 ]
 
-const selectedCategory = ref<string>('')
-const selectedCuisine = ref<string>('All')
+const categoryItems: CategoryItem[] = [
+    { codeName: 'Beef', title: 'Говядина' },
+    { codeName: 'Breakfast', title: 'Завтрак' },
+    { codeName: 'Chicken', title: 'Курица' },
+    { codeName: 'Dessert', title: 'Десерт' },
+    { codeName: 'Miscellaneous', title: 'Разнообразный' },
+    { codeName: 'Pasta', title: 'Паста' },
+    { codeName: 'Seafood', title: 'Морепродукты' },
+    { codeName: 'Vegetarian', title: 'Вегетарианский' },
+]
 
-const changeCategory = (category: CategoryItem) => {
-    selectedCategory.value =
-        selectedCategory.value === category.codeName ? '' : category.codeName
+const foodStore = useFoodStore()
+
+interface Props {
+    toggleOpen?: () => void
 }
+
+defineProps<Props>()
 </script>
 
 <template>
@@ -58,9 +54,10 @@ const changeCategory = (category: CategoryItem) => {
                                 type="checkbox"
                                 :value="category.codeName"
                                 :checked="
-                                    selectedCategory === category.codeName
+                                    foodStore.selectedCategory ===
+                                    category.codeName
                                 "
-                                @change="changeCategory(category)"
+                                @change="foodStore.changeCategory(category)"
                             />
                             {{ category.title }}
                         </li>
@@ -72,7 +69,7 @@ const changeCategory = (category: CategoryItem) => {
                         name="cuisines"
                         id="cuisines"
                         class="block__select"
-                        v-model="selectedCuisine"
+                        v-model="foodStore.selectedCuisine"
                     >
                         <option
                             v-for="cuisine in cuisines"
@@ -85,7 +82,17 @@ const changeCategory = (category: CategoryItem) => {
                 </div>
             </div>
         </div>
-        <button class="panel__button">Применить</button>
+        <button
+            class="panel__button"
+            @click="
+                () => {
+                    foodStore.fetchFood()
+                    toggleOpen()
+                }
+            "
+        >
+            Применить
+        </button>
     </aside>
 </template>
 
@@ -100,7 +107,8 @@ const changeCategory = (category: CategoryItem) => {
     height: 80vh;
     width: 420px;
     animation: fromLeftToRight 0.5s;
-    position: relative;
+    position: sticky;
+    top: 30px;
 }
 
 .panel__title {
@@ -164,7 +172,12 @@ const changeCategory = (category: CategoryItem) => {
 
 @media (max-width: 1800px) {
     .panel {
-        display: none;
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        animation: none;
     }
 }
 </style>

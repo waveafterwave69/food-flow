@@ -1,22 +1,28 @@
 <script setup lang="ts">
+import { useFoodStore } from '@/stores/foodStore'
 import { ref } from 'vue'
 import BackPanel from './BackPanel.vue'
 
-const searchValue = ref<string>('')
+const foodStore = useFoodStore()
+const isOpenPanel = ref<boolean>(false)
+
+const toggleOpen = () => {
+    isOpenPanel.value = !isOpenPanel.value
+}
 </script>
 
 <template>
     <div class="search">
-        <!-- <BackPanel /> -->
-        <button class="search__button">
+        <BackPanel v-if="isOpenPanel" :toggleOpen="toggleOpen" />
+        <button class="search__button" @click="toggleOpen">
             <img src="../assets/img/header/menu.png" alt="Открыть филтры" />
         </button>
         <div class="input__content">
             <input
                 type="text"
-                v-model="searchValue"
+                v-model="foodStore.searchValue"
                 class="search__input"
-                placeholder="Название блюда"
+                placeholder="Название блюда(на английском)"
             />
             <button>
                 <img
@@ -41,6 +47,7 @@ const searchValue = ref<string>('')
     background-color: var(--color-white-dark);
     padding: 12px;
     border-radius: var(--border-radius);
+    display: none;
 }
 
 .search__button img {
@@ -65,6 +72,12 @@ const searchValue = ref<string>('')
 
 .input__img {
     width: 20px;
+}
+
+@media (max-width: 1800px) {
+    .search__button {
+        display: block;
+    }
 }
 
 @media (max-width: 1024px) {
