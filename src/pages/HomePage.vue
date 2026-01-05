@@ -47,4 +47,10 @@ import Search from '@/components/Search.vue'
         display: none;
     }
 }
+
+@media (max-width: 500px) {
+    .main-container {
+        padding: 0 var(--container-padding-mobile-x);
+    }
+}
 </style>
