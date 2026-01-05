@@ -26,7 +26,7 @@ const foodStore = useFoodStore()
         v-if="!foodStore.foodData.length && !foodStore.isLoading"
         class="list__loading"
     >
-        Ничего не найдено :(
+        Ничего не найдено (возможно ошибка API, попробуйте включить VPN)
     </div>
 </template>
 
