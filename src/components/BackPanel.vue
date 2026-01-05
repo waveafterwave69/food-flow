@@ -108,7 +108,7 @@ defineProps<Props>()
     width: 420px;
     animation: fromLeftToRight 0.5s;
     position: sticky;
-    top: 30px;
+    top: 20px;
 }
 
 .panel__title {

@@ -26,6 +26,8 @@ import Search from '@/components/Search.vue'
 
 .column {
     width: 100%;
+    position: relative;
+    animation: fromBottomToTop 0.6s;
 }
 
 .main-container {
