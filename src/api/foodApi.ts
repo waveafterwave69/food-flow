@@ -5,7 +5,7 @@ const api = axios.create({
 })
 
 export const apiServices = {
-    getFoodByName: async (name: string) => {
+    getFoodByName: async (name: string = 'a') => {
         const response = await api.get(`search.php?s=${name}`)
         return response.data.meals
     },

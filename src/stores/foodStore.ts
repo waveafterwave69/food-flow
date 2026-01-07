@@ -7,7 +7,7 @@ export const useFoodStore = defineStore('food', () => {
     const foodData = ref<Food[]>([])
     const isLoading = ref<boolean>(false)
     const searchValue = ref<string>('')
-    const selectedCategory = ref<string>('Beef')
+    const selectedCategory = ref<string>('')
     const selectedCuisine = ref<string>('All')
 
     // computed свойство для определения типа запроса
@@ -37,33 +37,33 @@ export const useFoodStore = defineStore('food', () => {
 
             // Если есть поисковый запрос, ищем по имени
             if (shouldSearchByName.value) {
-                const searchResults = await apiServices.getFoodByName(
-                    searchValue.value
-                )
+                if (searchValue.value) {
+                    const searchResults = await apiServices.getFoodByName(
+                        searchValue.value
+                    )
 
-                // Если выбрана категория, фильтруем результаты по категории
-                if (selectedCategory.value) {
-                    const categoryResults = await apiServices.getFoodByCategory(
-                        selectedCategory.value
-                    )
-                    // Находим пересечение по idMeal
-                    const categoryMealIds = new Set(
-                        categoryResults?.map((meal) => meal.idMeal) || []
-                    )
-                    foodData.value =
-                        searchResults?.filter((meal) =>
-                            categoryMealIds.has(meal.idMeal)
-                        ) || []
-                } else {
-                    foodData.value = searchResults || []
+                    // Если выбрана категория, фильтруем результаты по категории
+                    if (selectedCategory.value) {
+                        const categoryResults =
+                            await apiServices.getFoodByCategory(
+                                selectedCategory.value
+                            )
+                        // Находим пересечение по idMeal
+                        const categoryMealIds = new Set(
+                            categoryResults?.map((meal) => meal.idMeal) || []
+                        )
+                        foodData.value =
+                            searchResults?.filter((meal) =>
+                                categoryMealIds.has(meal.idMeal)
+                            ) || []
+                    } else {
+                        foodData.value = searchResults || []
+                    }
                 }
             }
             // Если нет поискового запроса, просто получаем по категории
             else {
-                foodData.value =
-                    (await apiServices.getFoodByCategory(
-                        selectedCategory.value
-                    )) || []
+                foodData.value = (await apiServices.getFoodByName()) || []
             }
 
             console.log('Получены данные:', foodData.value)

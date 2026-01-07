@@ -63,23 +63,6 @@ defineProps<Props>()
                         </li>
                     </ul>
                 </div>
-                <div class="panel__block panel__block-cuisines">
-                    <div class="block__title">Кухня:</div>
-                    <select
-                        name="cuisines"
-                        id="cuisines"
-                        class="block__select"
-                        v-model="foodStore.selectedCuisine"
-                    >
-                        <option
-                            v-for="cuisine in cuisines"
-                            :key="cuisine.codeName"
-                            :value="cuisine.codeName"
-                        >
-                            {{ cuisine.country }}
-                        </option>
-                    </select>
-                </div>
             </div>
         </div>
         <button
