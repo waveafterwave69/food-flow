@@ -6,17 +6,38 @@ const api = axios.create({
 
 export const apiServices = {
     getFoodByName: async (name: string = 'a') => {
-        const response = await api.get(`search.php?s=${name}`)
-        return response.data.meals
+        try {
+            const response = await api.get(`search.php?s=${name}`)
+            return response.data.meals
+        } catch (error) {
+            console.log(error)
+        }
     },
 
     getFoodByCategory: async (category: string) => {
-        const response = await api.get(`filter.php?c=${category}`)
-        return response.data.meals
+        try {
+            const response = await api.get(`filter.php?c=${category}`)
+            return response.data.meals
+        } catch (error) {
+            console.log(error)
+        }
     },
 
     getRandomFood: async () => {
-        const response = await api.get(`randomselection.php`)
-        return response.data.meals
+        try {
+            const response = await api.get(`randomselection.php`)
+            return response.data.meals
+        } catch (error) {
+            console.log(error)
+        }
+    },
+
+    getFoodInfoById: async (id: string | string[]) => {
+        try {
+            const response = await api.get(`lookup.php?i=${id}`)
+            return response.data.meals
+        } catch (error) {
+            console.log(error)
+        }
     },
 }

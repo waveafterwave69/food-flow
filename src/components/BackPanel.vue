@@ -2,20 +2,6 @@
 import { useFoodStore } from '@/stores/foodStore'
 import { CategoryItem } from '@/types'
 
-const cuisines = [
-    {
-        country: 'Не выбрано',
-        codeName: 'All',
-    },
-    {
-        country: 'Русская',
-        codeName: 'Russian',
-    },
-    {
-        country: 'Индийская',
-        codeName: 'Indian',
-    },
-]
 
 const categoryItems: CategoryItem[] = [
     { codeName: 'Beef', title: 'Говядина' },

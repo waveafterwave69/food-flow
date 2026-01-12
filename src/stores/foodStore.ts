@@ -10,12 +10,10 @@ export const useFoodStore = defineStore('food', () => {
     const selectedCategory = ref<string>('')
     const selectedCuisine = ref<string>('All')
 
-    // computed свойство для определения типа запроса
     const shouldSearchByName = computed(() => {
         return searchValue.value.trim().length > 0
     })
 
-    // watch для отслеживания searchValue
     watch(searchValue, () => {
         fetchFood()
     })
@@ -35,35 +33,35 @@ export const useFoodStore = defineStore('food', () => {
         try {
             isLoading.value = true
 
-            // Если есть поисковый запрос, ищем по имени
-            if (shouldSearchByName.value) {
-                if (searchValue.value) {
-                    const searchResults = await apiServices.getFoodByName(
-                        searchValue.value
-                    )
+            if (shouldSearchByName.value && searchValue.value.trim()) {
+                const searchResults = await apiServices.getFoodByName(
+                    searchValue.value
+                )
 
-                    // Если выбрана категория, фильтруем результаты по категории
-                    if (selectedCategory.value) {
-                        const categoryResults =
-                            await apiServices.getFoodByCategory(
-                                selectedCategory.value
-                            )
-                        // Находим пересечение по idMeal
-                        const categoryMealIds = new Set(
-                            categoryResults?.map((meal) => meal.idMeal) || []
-                        )
-                        foodData.value =
-                            searchResults?.filter((meal) =>
-                                categoryMealIds.has(meal.idMeal)
-                            ) || []
-                    } else {
-                        foodData.value = searchResults || []
-                    }
+                if (selectedCategory.value) {
+                    const categoryResults = await apiServices.getFoodByCategory(
+                        selectedCategory.value
+                    )
+                    // Находим пересечение по idMeal
+                    const categoryMealIds = new Set(
+                        categoryResults?.map((meal) => meal.idMeal) || []
+                    )
+                    foodData.value =
+                        searchResults?.filter((meal) =>
+                            categoryMealIds.has(meal.idMeal)
+                        ) || []
+                } else {
+                    foodData.value = searchResults || []
                 }
-            }
-            // Если нет поискового запроса, просто получаем по категории
-            else {
-                foodData.value = (await apiServices.getFoodByName()) || []
+            } else {
+                if (selectedCategory.value) {
+                    foodData.value =
+                        (await apiServices.getFoodByCategory(
+                            selectedCategory.value
+                        )) || []
+                } else {
+                    foodData.value = (await apiServices.getFoodByName('')) || []
+                }
             }
 
             console.log('Получены данные:', foodData.value)
@@ -75,7 +73,6 @@ export const useFoodStore = defineStore('food', () => {
         }
     }
 
-    // Сброс поиска
     const resetSearch = () => {
         searchValue.value = ''
         fetchFood()
