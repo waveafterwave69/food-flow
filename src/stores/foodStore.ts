@@ -10,12 +10,15 @@ export const useFoodStore = defineStore('food', () => {
     const selectedCategory = ref<string>('')
     const selectedCuisine = ref<string>('All')
 
+    const debounceTimeout = ref<NodeJS.Timeout | null>(null)
+    const DEBOUNCE_DELAY = 500
+
     const shouldSearchByName = computed(() => {
         return searchValue.value.trim().length > 0
     })
 
     watch(searchValue, () => {
-        fetchFood()
+        debouncedFetchFood()
     })
 
     onMounted(() => {
@@ -27,9 +30,25 @@ export const useFoodStore = defineStore('food', () => {
             selectedCategory.value === category.codeName
                 ? ''
                 : category.codeName
+        fetchFood()
+    }
+
+    const debouncedFetchFood = () => {
+        if (debounceTimeout.value) {
+            clearTimeout(debounceTimeout.value)
+        }
+
+        debounceTimeout.value = setTimeout(() => {
+            fetchFood()
+        }, DEBOUNCE_DELAY)
     }
 
     const fetchFood = async () => {
+        if (debounceTimeout.value) {
+            clearTimeout(debounceTimeout.value)
+            debounceTimeout.value = null
+        }
+
         try {
             isLoading.value = true
 
@@ -78,6 +97,13 @@ export const useFoodStore = defineStore('food', () => {
         fetchFood()
     }
 
+    const cleanup = () => {
+        if (debounceTimeout.value) {
+            clearTimeout(debounceTimeout.value)
+            debounceTimeout.value = null
+        }
+    }
+
     return {
         searchValue,
         foodData,
@@ -86,6 +112,8 @@ export const useFoodStore = defineStore('food', () => {
         changeCategory,
         selectedCategory,
         fetchFood,
+        debouncedFetchFood,
         resetSearch,
+        cleanup,
     }
 })

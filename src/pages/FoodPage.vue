@@ -26,9 +26,31 @@ onMounted(async () => {
 <template>
     <div class="container">
         <div class="food" v-if="food">
-            <div>НАЗВАНИЕ: {{ food.strMeal }}</div>
-            <img :src="food.strMealThumb" alt="" />
-            <div>КАК ПРИГОТОВИТЬ: {{ food.strInstructions }}</div>
+            <img
+                :src="food.strMealThumb"
+                :alt="food.strMeal"
+                class="food__img"
+            />
+
+            <div class="food__text">
+                <h2 class="food__title">
+                    {{ food.strMeal }} (<a
+                        :href="food.strSource"
+                        target="_blank"
+                        >Link</a
+                    >)
+                </h2>
+                <div class="block__content">
+                    <span class="block__text"
+                        >Category: {{ food.strCategory }}</span
+                    >
+                </div>
+                <div class="block__content">
+                    <span class="block__text">
+                        Guide: {{ food.strInstructions }}</span
+                    >
+                </div>
+            </div>
 
             <!-- ВИДЕО-ГАЙД -->
             <iframe
@@ -41,8 +63,45 @@ onMounted(async () => {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
             ></iframe>
-
-            <a :href="food.strSource" target="_blank">ССЫЛКА НА ИСТОЧНИК</a>
         </div>
     </div>
 </template>
+
+<style scoped>
+.food {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    column-gap: 25px;
+}
+
+.food__img {
+    width: 500px;
+    border-radius: 5px;
+}
+
+.food__text {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.food__title {
+    font-weight: 400;
+    font-size: 48px;
+    font-family: var(--font-second);
+    border-bottom: 3px solid var(--color-yellow);
+}
+
+.block__content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.block__text {
+    font-size: 18px;
+    font-weight: 500;
+}
+</style>
