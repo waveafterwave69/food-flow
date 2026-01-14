@@ -7,16 +7,22 @@ export const useFoodStore = defineStore('food', () => {
     const foodData = ref<Food[]>([])
     const isLoading = ref<boolean>(false)
     const searchValue = ref<string>('')
+
+    // Изменяем логику: храним выбранную категорию и временную выбранную категорию
     const selectedCategory = ref<string>('')
+    const tempSelectedCategory = ref<string>('') // Временное значение для чекбоксов
+
     const selectedCuisine = ref<string>('All')
 
+    // Для управления debounce
     const debounceTimeout = ref<NodeJS.Timeout | null>(null)
-    const DEBOUNCE_DELAY = 500
+    const DEBOUNCE_DELAY = 500 // 0.5 секунды для поиска
 
     const shouldSearchByName = computed(() => {
         return searchValue.value.trim().length > 0
     })
 
+    // Дебаунс watch для поиска
     watch(searchValue, () => {
         debouncedFetchFood()
     })
@@ -25,14 +31,26 @@ export const useFoodStore = defineStore('food', () => {
         fetchFood()
     })
 
+    // Теперь просто меняем временное значение, без вызова fetchFood
     const changeCategory = (category: CategoryItem) => {
-        selectedCategory.value =
-            selectedCategory.value === category.codeName
+        tempSelectedCategory.value =
+            tempSelectedCategory.value === category.codeName
                 ? ''
                 : category.codeName
+    }
+
+    // Применяем фильтр и обновляем выбранную категорию
+    const applyFilters = () => {
+        selectedCategory.value = tempSelectedCategory.value
         fetchFood()
     }
 
+    // Сбрасываем временный выбор к текущему выбранному значению
+    const resetTempCategory = () => {
+        tempSelectedCategory.value = selectedCategory.value
+    }
+
+    // Дебаунсированная версия fetchFood
     const debouncedFetchFood = () => {
         if (debounceTimeout.value) {
             clearTimeout(debounceTimeout.value)
@@ -43,6 +61,7 @@ export const useFoodStore = defineStore('food', () => {
         }, DEBOUNCE_DELAY)
     }
 
+    // Основная функция загрузки данных
     const fetchFood = async () => {
         if (debounceTimeout.value) {
             clearTimeout(debounceTimeout.value)
@@ -61,7 +80,6 @@ export const useFoodStore = defineStore('food', () => {
                     const categoryResults = await apiServices.getFoodByCategory(
                         selectedCategory.value
                     )
-                    // Находим пересечение по idMeal
                     const categoryMealIds = new Set(
                         categoryResults?.map((meal) => meal.idMeal) || []
                     )
@@ -94,6 +112,17 @@ export const useFoodStore = defineStore('food', () => {
 
     const resetSearch = () => {
         searchValue.value = ''
+        selectedCategory.value = ''
+        tempSelectedCategory.value = ''
+        fetchFood()
+    }
+
+    // Сброс всех фильтров
+    const resetAllFilters = () => {
+        searchValue.value = ''
+        selectedCategory.value = ''
+        tempSelectedCategory.value = ''
+        selectedCuisine.value = 'All'
         fetchFood()
     }
 
@@ -111,9 +140,13 @@ export const useFoodStore = defineStore('food', () => {
         selectedCuisine,
         changeCategory,
         selectedCategory,
+        tempSelectedCategory,
+        applyFilters,
+        resetTempCategory,
         fetchFood,
         debouncedFetchFood,
         resetSearch,
+        resetAllFilters,
         cleanup,
     }
 })

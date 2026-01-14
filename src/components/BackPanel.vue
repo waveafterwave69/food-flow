@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFoodStore } from '@/stores/foodStore'
 import { CategoryItem } from '@/types'
-
+import { onMounted } from 'vue'
 
 const categoryItems: CategoryItem[] = [
     { codeName: 'Beef', title: 'Говядина' },
@@ -20,7 +20,21 @@ interface Props {
     toggleOpen?: () => void
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+onMounted(() => {
+    foodStore.resetTempCategory()
+})
+
+const applyFilters = () => {
+    foodStore.applyFilters()
+    props.toggleOpen()
+}
+
+const resetFilters = () => {
+    foodStore.resetAllFilters()
+    props.toggleOpen()
+}
 </script>
 
 <template>
@@ -40,7 +54,7 @@ defineProps<Props>()
                                 type="checkbox"
                                 :value="category.codeName"
                                 :checked="
-                                    foodStore.selectedCategory ===
+                                    foodStore.tempSelectedCategory ===
                                     category.codeName
                                 "
                                 @change="foodStore.changeCategory(category)"
@@ -51,17 +65,20 @@ defineProps<Props>()
                 </div>
             </div>
         </div>
-        <button
-            class="panel__button"
-            @click="
-                () => {
-                    foodStore.fetchFood()
-                    toggleOpen()
-                }
-            "
-        >
-            Применить
-        </button>
+        <div class="panel__actions">
+            <button
+                class="panel__button panel__button-reset"
+                @click="resetFilters"
+            >
+                Сбросить
+            </button>
+            <button
+                class="panel__button panel__button-apply"
+                @click="applyFilters"
+            >
+                Применить
+            </button>
+        </div>
     </aside>
 </template>
 
@@ -124,19 +141,27 @@ defineProps<Props>()
     height: 17px;
 }
 
-.block__select {
-    background-color: var(--color-white);
-    width: 100%;
-    padding: 12px 20px;
-    border-radius: var(--border-radius);
+.panel__actions {
+    display: flex;
+    gap: 10px;
 }
 
 .panel__button {
+    flex: 1;
     font-weight: 500;
     font-size: 20px;
-    background-color: var(--color-yellow-dark);
     padding: 15px;
     border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.panel__button-apply {
+    background-color: var(--color-yellow-dark);
+}
+
+.panel__button-reset {
+    background-color: var(--color-gray-light);
+    color: var(--color-gray-dark);
 }
 
 @media (max-width: 1800px) {
@@ -171,8 +196,8 @@ defineProps<Props>()
     }
 
     .block__list {
-        padding: 12px 20px;
-        row-gap: 15px;
+        padding: 15px 20px;
+        row-gap: 22px;
     }
 
     .list__item {
@@ -184,11 +209,6 @@ defineProps<Props>()
         cursor: pointer;
         width: 16px;
         height: 16px;
-    }
-
-    .block__select {
-        width: 100%;
-        padding: 12px 20px;
     }
 
     .panel__button {
