@@ -31,45 +31,55 @@ onMounted(async () => {
                 :alt="food.strMeal"
                 class="food__img"
             />
-
-            <div class="food__text">
-                <h2 class="food__title">
-                    {{ food.strMeal }} (<a
-                        :href="food.strSource"
-                        target="_blank"
-                        >Link</a
-                    >)
-                </h2>
-                <div class="block__content">
-                    <span class="block__text"
-                        >Category: {{ food.strCategory }}</span
-                    >
-                </div>
-                <div class="block__content">
-                    <span class="block__text">
-                        Guide: {{ food.strInstructions }}</span
-                    >
+            <div class="main__content">
+                <div class="food__text">
+                    <h2 class="food__title">
+                        {{ food.strMeal }}
+                    </h2>
+                    <div class="block__content">
+                        <span class="block__text"
+                            >Source Link:
+                            <a :href="food.strSource" target="_blank">{{
+                                food.strSource
+                            }}</a></span
+                        >
+                    </div>
+                    <div class="block__content">
+                        <span class="block__text"
+                            >Category: {{ food.strCategory }}</span
+                        >
+                    </div>
+                    <div class="block__content">
+                        <span class="block__text">
+                            Guide: {{ food.strInstructions }}</span
+                        >
+                    </div>
                 </div>
             </div>
 
             <!-- ВИДЕО-ГАЙД -->
             <iframe
                 v-if="youtubeEmbedUrl"
-                width="560"
-                height="315"
+                class="yt__video"
                 :src="youtubeEmbedUrl"
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
-            ></iframe>
+            />
         </div>
     </div>
 </template>
 
 <style scoped>
 .food {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 50px;
+}
+
+.main__content {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -77,8 +87,11 @@ onMounted(async () => {
 }
 
 .food__img {
-    width: 500px;
+    width: 100%;
+    margin-top: 20px;
+    height: 500px;
     border-radius: 5px;
+    object-fit: cover;
 }
 
 .food__text {
@@ -92,6 +105,7 @@ onMounted(async () => {
     font-size: 48px;
     font-family: var(--font-second);
     border-bottom: 3px solid var(--color-yellow);
+    color: var(--color-black);
 }
 
 .block__content {
@@ -103,5 +117,112 @@ onMounted(async () => {
 .block__text {
     font-size: 18px;
     font-weight: 500;
+}
+
+.block__text a {
+    color: var(--color-black);
+    text-decoration: underline;
+}
+
+.yt__video {
+    width: 560px;
+    height: 315px;
+}
+
+@media (max-width: 1024px) {
+    .food {
+        row-gap: 20px;
+    }
+
+    .food__img {
+        width: 100%;
+        margin-top: 15px;
+        height: 250px;
+    }
+
+    .food__text {
+        row-gap: 20px;
+    }
+
+    .food__title {
+        font-size: 44px;
+        border-bottom: 3px solid var(--color-yellow);
+    }
+
+    .block__content {
+        row-gap: 4px;
+    }
+
+    .block__text {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .food {
+        row-gap: 20px;
+    }
+
+    .food__img {
+        width: 100%;
+        margin-top: 15px;
+        height: 200px;
+    }
+
+    .food__text {
+        row-gap: 15px;
+    }
+
+    .food__title {
+        font-size: 38px;
+        border-bottom: 2px solid var(--color-yellow);
+    }
+
+    .block__content {
+        row-gap: 4px;
+    }
+
+    .block__text {
+        font-size: 16px;
+    }
+
+    .yt__video {
+        width: 355px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 425px) {
+    .food {
+        row-gap: 20px;
+    }
+
+    .food__img {
+        width: 100%;
+        margin-top: 15px;
+        height: 200px;
+    }
+
+    .food__text {
+        row-gap: 15px;
+    }
+
+    .food__title {
+        font-size: 36px;
+        border-bottom: 2px solid var(--color-yellow);
+    }
+
+    .block__content {
+        row-gap: 4px;
+    }
+
+    .block__text {
+        font-size: 16px;
+    }
+
+    .yt__video {
+        width: 355px;
+        height: 200px;
+    }
 }
 </style>
