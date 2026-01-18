@@ -1,5 +1,5 @@
 export const convertToEmbedUrl = (url: string | undefined): string => {
-    if (!url) return ''
+    if (!url) {return ''}
 
     if (url.includes('youtube.com/embed/')) {
         return url
