@@ -22,7 +22,7 @@
     }
 }
 
-@keyframes fromRightToLeft {
+@keyframes burgerAnimate {
     0% {
         right: -500px;
         opacity: 0;
@@ -42,6 +42,30 @@
 
     100% {
         top: 0px;
+        opacity: 1;
+    }
+}
+
+@keyframes fromLeftToRight {
+    0% {
+        right: 100px;
+        opacity: 0;
+    }
+
+    100% {
+        right: 0px;
+        opacity: 1;
+    }
+}
+
+@keyframes fromRightToLeft {
+    0% {
+        left: 100px;
+        opacity: 0;
+    }
+
+    100% {
+        left: 0px;
         opacity: 1;
     }
 }

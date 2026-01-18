@@ -64,7 +64,14 @@ onMounted(async () => {
                 :src="youtubeEmbedUrl"
                 title="YouTube video player"
                 frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture;
+                "
                 allowfullscreen
             />
         </div>
@@ -84,14 +91,18 @@ onMounted(async () => {
     justify-content: space-between;
     align-items: flex-start;
     column-gap: 25px;
+    animation: fromLeftToRight 0.4s;
+    position: relative;
 }
 
 .food__img {
     width: 100%;
     margin-top: 20px;
-    height: 500px;
+    height: 400px;
     border-radius: 5px;
     object-fit: cover;
+    animation: fromRightToLeft 0.4s;
+    position: relative;
 }
 
 .food__text {

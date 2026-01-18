@@ -49,7 +49,7 @@ defineProps<Props>()
     background-color: var(--color-white);
     width: 500px;
     height: 100vh;
-    animation: fromRightToLeft 0.3s;
+    animation: burgerAnimate 0.3s;
 }
 
 .close__btn {
