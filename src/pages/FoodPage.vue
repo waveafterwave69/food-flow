@@ -8,7 +8,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const foodId = router.currentRoute.value.params.id
 
-const { foodInfo, getFoodInfo } = useCurrentFood(foodId)
+const { foodInfo, getFoodInfo, ingredients } = useCurrentFood(foodId)
 const food = ref<Food>()
 
 const youtubeEmbedUrl = computed(() => {
@@ -18,7 +18,6 @@ const youtubeEmbedUrl = computed(() => {
 
 onMounted(async () => {
     await getFoodInfo()
-    console.log(foodInfo.value[0])
     food.value = foodInfo.value[0]
 })
 </script>
@@ -49,6 +48,28 @@ onMounted(async () => {
                             >Category: {{ food.strCategory }}</span
                         >
                     </div>
+
+                    <div
+                        class="block__content ingredients"
+                        v-if="ingredients.length > 0"
+                    >
+                        <h3 class="ingredients__title">Ingredients:</h3>
+                        <ul class="ingredients__list">
+                            <li
+                                v-for="(ingredient, index) in ingredients"
+                                :key="index"
+                                class="ingredients__item"
+                            >
+                                <span class="ingredient__name">{{
+                                    ingredient.name
+                                }}</span>
+                                <span class="ingredient__measure">{{
+                                    ingredient.measure
+                                }}</span>
+                            </li>
+                        </ul>
+                    </div>
+
                     <div class="block__content">
                         <span class="block__text">
                             Guide: {{ food.strInstructions }}</span
@@ -84,6 +105,7 @@ onMounted(async () => {
     flex-direction: column;
     align-items: center;
     row-gap: 50px;
+    margin-bottom: 50px;
 }
 
 .main__content {
@@ -109,6 +131,7 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
+    width: 100%;
 }
 
 .food__title {
@@ -133,6 +156,61 @@ onMounted(async () => {
 .block__text a {
     color: var(--color-black);
     text-decoration: underline;
+}
+
+/* СТИЛИ ДЛЯ ИНГРЕДИЕНТОВ */
+.ingredients {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border-left: 4px solid var(--color-yellow);
+}
+
+.ingredients__title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--color-black);
+    font-family: var(--font-second);
+}
+
+.ingredients__list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ingredients__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.ingredients__item:hover {
+    transform: translateX(5px);
+}
+
+.ingredient__name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.ingredient__measure {
+    font-size: 14px;
+    font-weight: 400;
+    color: #666;
+    background-color: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 
 .yt__video {
@@ -167,6 +245,10 @@ onMounted(async () => {
     .block__text {
         font-size: 18px;
     }
+
+    .ingredients__title {
+        font-size: 22px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -195,6 +277,27 @@ onMounted(async () => {
 
     .block__text {
         font-size: 16px;
+    }
+
+    .ingredients {
+        padding: 12px;
+    }
+
+    .ingredients__title {
+        font-size: 20px;
+    }
+
+    .ingredients__item {
+        padding: 6px 10px;
+    }
+
+    .ingredient__name {
+        font-size: 15px;
+    }
+
+    .ingredient__measure {
+        font-size: 13px;
+        padding: 3px 6px;
     }
 
     .yt__video {
@@ -231,8 +334,20 @@ onMounted(async () => {
         font-size: 16px;
     }
 
+    .ingredients__title {
+        font-size: 18px;
+    }
+
+    .ingredient__name {
+        font-size: 14px;
+    }
+
+    .ingredient__measure {
+        font-size: 12px;
+    }
+
     .yt__video {
-        width: 355px;
+        width: 100%;
         height: 200px;
     }
 }
