@@ -10,7 +10,9 @@ export const apiServices = {
             const response = await api.get(`search.php?s=${name}`)
             return response.data.meals
         } catch (error) {
-            console.log(error)
+            throw new Error(
+                `Failed to fetch food by name "${name}": ${error instanceof Error ? error.message : 'Unknown error'}`,
+            )
         }
     },
 
@@ -19,7 +21,9 @@ export const apiServices = {
             const response = await api.get(`filter.php?c=${category}`)
             return response.data.meals
         } catch (error) {
-            console.log(error)
+            throw new Error(
+                `Failed to fetch food by category "${category}": ${error instanceof Error ? error.message : 'Unknown error'}`,
+            )
         }
     },
 
@@ -28,7 +32,9 @@ export const apiServices = {
             const response = await api.get(`randomselection.php`)
             return response.data.meals
         } catch (error) {
-            console.log(error)
+            throw new Error(
+                `Failed to fetch random food: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            )
         }
     },
 
@@ -37,7 +43,9 @@ export const apiServices = {
             const response = await api.get(`lookup.php?i=${id}`)
             return response.data.meals
         } catch (error) {
-            console.log(error)
+            throw new Error(
+                `Failed to fetch food info by ID "${id}": ${error instanceof Error ? error.message : 'Unknown error'}`,
+            )
         }
     },
 }

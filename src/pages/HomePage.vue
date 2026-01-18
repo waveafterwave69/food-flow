@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BackPanel from '@/components/BackPanel.vue'
 import FoodList from '@/components/FoodList.vue'
-import Search from '@/components/Search.vue'
+import SearchComponent from '@/components/SearchComponent.vue'
 </script>
 
 <template>
@@ -9,7 +9,7 @@ import Search from '@/components/Search.vue'
         <div class="row">
             <BackPanel class="panel" />
             <div class="column">
-                <Search />
+                <SearchComponent />
                 <FoodList />
             </div>
         </div>

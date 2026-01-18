@@ -7,6 +7,7 @@ export const useFoodStore = defineStore('food', () => {
     const foodData = ref<Food[]>([])
     const isLoading = ref<boolean>(false)
     const searchValue = ref<string>('')
+    const errorMessage = ref<Error>()
 
     const selectedCategory = ref<string>('')
     const tempSelectedCategory = ref<string>('')
@@ -65,19 +66,19 @@ export const useFoodStore = defineStore('food', () => {
 
             if (shouldSearchByName.value && searchValue.value.trim()) {
                 const searchResults = await apiServices.getFoodByName(
-                    searchValue.value
+                    searchValue.value,
                 )
 
                 if (selectedCategory.value) {
                     const categoryResults = await apiServices.getFoodByCategory(
-                        selectedCategory.value
+                        selectedCategory.value,
                     )
                     const categoryMealIds = new Set(
-                        categoryResults?.map((meal) => meal.idMeal) || []
+                        categoryResults?.map((meal) => meal.idMeal) || [],
                     )
                     foodData.value =
                         searchResults?.filter((meal) =>
-                            categoryMealIds.has(meal.idMeal)
+                            categoryMealIds.has(meal.idMeal),
                         ) || []
                 } else {
                     foodData.value = searchResults || []
@@ -86,17 +87,15 @@ export const useFoodStore = defineStore('food', () => {
                 if (selectedCategory.value) {
                     foodData.value =
                         (await apiServices.getFoodByCategory(
-                            selectedCategory.value
+                            selectedCategory.value,
                         )) || []
                 } else {
                     foodData.value = (await apiServices.getFoodByName('')) || []
                 }
             }
-
-            console.log('Получены данные:', foodData.value)
-        } catch (error: any) {
-            console.error('Ошибка при загрузке данных:', error)
+        } catch (error) {
             foodData.value = []
+            errorMessage.value = error.message
         } finally {
             isLoading.value = false
         }
