@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { useCurrentFood } from '@/composables/useCurrentFood'
+import { useFoodStore } from '@/stores/foodStore'
 import { Food } from '@/types'
 import { convertToEmbedUrl } from '@/utils/utils'
 import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+
+const foodStore = useFoodStore()
 
 const router = useRouter()
 const foodId = router.currentRoute.value.params.id
@@ -20,6 +23,11 @@ onMounted(async () => {
     await getFoodInfo()
     food.value = foodInfo.value[0]
 })
+
+const handleIngridientClick = (ingredientName: string) => {
+    foodStore.applyIngidient(ingredientName)
+    router.push('/')
+}
 </script>
 
 <template>
@@ -59,6 +67,7 @@ onMounted(async () => {
                                 v-for="(ingredient, index) in ingredients"
                                 :key="index"
                                 class="ingredients__item"
+                                @click="handleIngridientClick(ingredient.name)"
                             >
                                 <span class="ingredient__name">{{
                                     ingredient.name
@@ -192,6 +201,7 @@ onMounted(async () => {
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s;
+    cursor: pointer;
 }
 
 .ingredients__item:hover {

@@ -48,4 +48,17 @@ export const apiServices = {
             )
         }
     },
+
+    getFoodsByIngridient: async (ingridient: string) => {
+        try {
+            const response = await api.get(
+                `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingridient}`,
+            )
+            return response.data.meals
+        } catch (error) {
+            throw new Error(
+                `${error instanceof Error ? error.message : 'Unknown error'}`,
+            )
+        }
+    },
 }

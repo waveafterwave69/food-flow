@@ -53,7 +53,9 @@ const foodStore = useFoodStore()
     border-radius: var(--border-radius);
     overflow: hidden;
     text-decoration: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
     height: 100%;
 }
 

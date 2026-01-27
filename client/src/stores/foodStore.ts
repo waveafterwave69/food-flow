@@ -7,6 +7,7 @@ export const useFoodStore = defineStore('food', () => {
     const foodData = ref<Food[]>([])
     const isLoading = ref<boolean>(false)
     const searchValue = ref<string>('')
+    const ingridientValue = ref<string>('')
     const errorMessage = ref<Error>()
 
     const selectedCategory = ref<string>('')
@@ -36,6 +37,12 @@ export const useFoodStore = defineStore('food', () => {
                 : category.codeName
     }
 
+    const applyIngidient = (ingredient: string) => {
+        ingridientValue.value = ingredient
+        fetchFood()
+        console.log(foodData.value)
+    }
+
     const applyFilters = () => {
         selectedCategory.value = tempSelectedCategory.value
         fetchFood()
@@ -63,8 +70,11 @@ export const useFoodStore = defineStore('food', () => {
 
         try {
             isLoading.value = true
-
-            if (shouldSearchByName.value && searchValue.value.trim()) {
+            if (ingridientValue.value) {
+                foodData.value = await apiServices.getFoodsByIngridient(
+                    ingridientValue.value,
+                )
+            } else if (shouldSearchByName.value && searchValue.value.trim()) {
                 const searchResults = await apiServices.getFoodByName(
                     searchValue.value,
                 )
@@ -138,5 +148,7 @@ export const useFoodStore = defineStore('food', () => {
         resetSearch,
         resetAllFilters,
         cleanup,
+        ingridientValue,
+        applyIngidient,
     }
 })
