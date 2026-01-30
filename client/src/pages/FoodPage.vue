@@ -25,7 +25,7 @@ onMounted(async () => {
 })
 
 const handleIngridientClick = (ingredientName: string) => {
-    foodStore.applyIngidient(ingredientName)
+    foodStore.applyIngridient(ingredientName)
     router.push('/')
 }
 </script>

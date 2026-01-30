@@ -33,6 +33,14 @@ const toggleOpen = () => {
             </button>
         </div>
     </div>
+    <div class="search__ingiridients" v-if="foodStore.ingridientValue">
+        <span class="ingiridients__text"
+            >Search by ingridient: {{ foodStore.ingridientValue }}</span
+        >
+        <button class="ingiridients__button" @click="foodStore.resetIngridient">
+            x
+        </button>
+    </div>
 </template>
 
 <style scoped>
@@ -72,6 +80,21 @@ const toggleOpen = () => {
 
 .input__img {
     width: 20px;
+}
+
+.search__ingiridients {
+    background-color: var(--color-white-dark);
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ingiridients__button {
+    font-size: 20px;
+    color: red;
 }
 
 @media (max-width: 1800px) {

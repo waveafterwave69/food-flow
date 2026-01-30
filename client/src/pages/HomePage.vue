@@ -2,12 +2,15 @@
 import BackPanel from '@/components/BackPanel.vue'
 import FoodList from '@/components/FoodList.vue'
 import SearchComponent from '@/components/SearchComponent.vue'
+import { useFoodStore } from '@/stores/foodStore'
+
+const foodStore = useFoodStore()
 </script>
 
 <template>
     <main class="main-container">
         <div class="row">
-            <BackPanel class="panel" />
+            <BackPanel class="panel" v-if="!foodStore.ingridientValue" />
             <div class="column">
                 <SearchComponent />
                 <FoodList />

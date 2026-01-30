@@ -37,10 +37,14 @@ export const useFoodStore = defineStore('food', () => {
                 : category.codeName
     }
 
-    const applyIngidient = (ingredient: string) => {
+    const applyIngridient = (ingredient: string) => {
         ingridientValue.value = ingredient
         fetchFood()
-        console.log(foodData.value)
+    }
+
+    const resetIngridient = () => {
+        ingridientValue.value = ''
+        fetchFood()
     }
 
     const applyFilters = () => {
@@ -149,6 +153,7 @@ export const useFoodStore = defineStore('food', () => {
         resetAllFilters,
         cleanup,
         ingridientValue,
-        applyIngidient,
+        applyIngridient,
+        resetIngridient,
     }
 })
