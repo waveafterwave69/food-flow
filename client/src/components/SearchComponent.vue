@@ -14,8 +14,12 @@ const toggleOpen = () => {
 <template>
     <div class="search">
         <BackPanel v-if="isOpenPanel" :toggleOpen="toggleOpen" />
-        <button class="search__button" @click="toggleOpen">
-            <img src="../assets/img/header/menu.png" alt="Открыть филтры" />
+        <button
+            v-if="!foodStore.ingridientValue"
+            class="search__button"
+            @click="toggleOpen"
+        >
+            <img src="../assets/img/header/menu.png" alt="Открыть фильтры" />
         </button>
         <div class="input__content">
             <input
@@ -38,7 +42,11 @@ const toggleOpen = () => {
             >Search by ingridient: {{ foodStore.ingridientValue }}</span
         >
         <button class="ingiridients__button" @click="foodStore.resetIngridient">
-            x
+            <img
+                class="button__img"
+                src="../assets/img/search/cancel.png"
+                alt="закрыть"
+            />
         </button>
     </div>
 </template>
@@ -92,9 +100,8 @@ const toggleOpen = () => {
     align-items: center;
 }
 
-.ingiridients__button {
-    font-size: 20px;
-    color: red;
+.button__img {
+    width: 25px;
 }
 
 @media (max-width: 1800px) {
@@ -169,6 +176,15 @@ const toggleOpen = () => {
     .input__content {
         font-size: 18px;
         padding: 10px 15px;
+    }
+
+    .search__ingiridients {
+        padding: 8px 15px;
+        margin-top: 10px;
+    }
+
+    .button__img {
+        width: 20px;
     }
 }
 </style>
