@@ -4,6 +4,7 @@ interface Props {
 }
 
 defineProps<Props>()
+console.log('da')
 </script>
 
 <template>
