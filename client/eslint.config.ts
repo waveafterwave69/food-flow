@@ -12,8 +12,10 @@ export default defineConfig([
         languageOptions: { globals: globals.browser },
         rules: {
             'no-console': 'warn',
-            eqeqeq: 'warn',
             'no-else-return': 'warn',
+            eqeqeq: ['error', 'always'],
+            'no-var': 'error',
+            'prefer-const': 'error',
         },
     },
     tseslint.configs.recommended,
