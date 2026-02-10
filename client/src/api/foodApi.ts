@@ -1,8 +1,4 @@
-import axios from 'axios'
-
-const api = axios.create({
-    baseURL: 'https://www.themealdb.com/api/json/v1/1/',
-})
+import { api } from './api'
 
 export const apiServices = {
     getFoodByName: async (name: string = 'a') => {
