@@ -209,7 +209,6 @@ const foodStore = useFoodStore()
     animation: fadeIn 0.5s ease;
 }
 
-/* Спиннер */
 .recipes__spinner {
     width: 50px;
     height: 50px;

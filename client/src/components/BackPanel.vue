@@ -3,6 +3,12 @@ import { useFoodStore } from '@/stores/foodStore'
 import { CategoryItem } from '@/types'
 import { onMounted } from 'vue'
 
+interface Props {
+    toggleOpen?: () => void
+}
+
+const props = defineProps<Props>()
+
 const categoryItems: CategoryItem[] = [
     { codeName: 'Beef', title: 'Говядина', icon: '🥩' },
     { codeName: 'Breakfast', title: 'Завтрак', icon: '🍳' },
@@ -15,16 +21,6 @@ const categoryItems: CategoryItem[] = [
 ]
 
 const foodStore = useFoodStore()
-
-interface Props {
-    toggleOpen?: () => void
-}
-
-const props = defineProps<Props>()
-
-onMounted(() => {
-    foodStore.resetTempCategory()
-})
 
 const applyFilters = () => {
     foodStore.applyFilters()
@@ -39,6 +35,10 @@ const resetFilters = () => {
 const closePanel = () => {
     props.toggleOpen?.()
 }
+
+onMounted(() => {
+    foodStore.resetTempCategory()
+})
 </script>
 
 <template>
