@@ -70,17 +70,6 @@ const toggleOpen = () => {
     animation: slideDown 0.5s ease;
 }
 
-@keyframes slideDown {
-    from {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
 .header__content {
     display: flex;
     align-items: center;

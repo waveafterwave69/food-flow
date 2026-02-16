@@ -304,17 +304,6 @@ const toggleOpen = () => {
     height: 20px;
 }
 
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 @media (max-width: 1800px) {
     .search-bar__filter-btn {
         display: flex;

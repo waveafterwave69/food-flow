@@ -143,17 +143,6 @@ defineProps<Props>()
     animation: fadeIn 0.3s ease;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        backdrop-filter: blur(0);
-    }
-    to {
-        opacity: 1;
-        backdrop-filter: blur(4px);
-    }
-}
-
 .burger-menu {
     position: fixed;
     top: 0;
@@ -168,15 +157,6 @@ defineProps<Props>()
     flex-direction: column;
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(0);
-    }
-}
-
 .burger-menu__close {
     position: absolute;
     top: 1.5rem;
@@ -184,13 +164,13 @@ defineProps<Props>()
     width: 40px;
     height: 40px;
     border: none;
-    background: rgba(226, 125, 96, 0.1);
+    background: rgba(0, 0, 0, 0.048);
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-accent);
+
     transition: all 0.3s ease;
     z-index: 10;
 }
@@ -222,7 +202,6 @@ defineProps<Props>()
     font-family: var(--font-second);
     font-size: 2.5rem;
     font-weight: 500;
-    color: #2d2d2d;
     margin: 0;
     position: relative;
     display: inline-block;
@@ -236,7 +215,7 @@ defineProps<Props>()
     transform: translateX(-50%);
     width: 60px;
     height: 4px;
-    background: linear-gradient(90deg, var(--color-accent), #ffb347);
+    background: var(--color-accent);
     border-radius: 4px;
 }
 
@@ -271,17 +250,6 @@ defineProps<Props>()
     animation-delay: 0.25s;
 }
 
-@keyframes fadeInItem {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
 .nav__link {
     display: flex;
     align-items: center;
@@ -297,7 +265,7 @@ defineProps<Props>()
 }
 
 .nav__link:hover {
-    background: linear-gradient(135deg, var(--color-accent), #ff9f4b);
+    background: var(--color-accent);
     color: white;
     transform: translateX(8px);
     box-shadow: 0 8px 20px rgba(226, 125, 96, 0.3);

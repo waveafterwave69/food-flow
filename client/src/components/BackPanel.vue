@@ -3,6 +3,12 @@ import { useFoodStore } from '@/stores/foodStore'
 import { CategoryItem } from '@/types'
 import { onMounted } from 'vue'
 
+interface Props {
+    toggleOpen?: () => void
+}
+
+const props = defineProps<Props>()
+
 const categoryItems: CategoryItem[] = [
     { codeName: 'Beef', title: 'Говядина', icon: '🥩' },
     { codeName: 'Breakfast', title: 'Завтрак', icon: '🍳' },
@@ -15,16 +21,6 @@ const categoryItems: CategoryItem[] = [
 ]
 
 const foodStore = useFoodStore()
-
-interface Props {
-    toggleOpen?: () => void
-}
-
-const props = defineProps<Props>()
-
-onMounted(() => {
-    foodStore.resetTempCategory()
-})
 
 const applyFilters = () => {
     foodStore.applyFilters()
@@ -39,6 +35,10 @@ const resetFilters = () => {
 const closePanel = () => {
     props.toggleOpen?.()
 }
+
+onMounted(() => {
+    foodStore.resetTempCategory()
+})
 </script>
 
 <template>
@@ -427,24 +427,6 @@ const closePanel = () => {
     box-shadow: 0 8px 20px rgba(255, 68, 68, 0.15);
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideInLeft {
-    from {
-        transform: translateX(-100%);
-    }
-    to {
-        transform: translateX(0);
-    }
-}
-
 @media (max-width: 1800px) {
     .panel-overlay {
         position: fixed;
@@ -460,17 +442,6 @@ const closePanel = () => {
         height: 90vh;
         animation: slideInBottom 0.4s ease;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
-
-    @keyframes slideInBottom {
-        from {
-            transform: translateY(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
     }
 }
 
