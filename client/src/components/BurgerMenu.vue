@@ -8,172 +8,541 @@ defineProps<Props>()
 
 <template>
     <div class="overlay" @click="toggleOpen"></div>
-    <div class="burger">
-        <button @click="toggleOpen">
-            <img
-                src="../assets/img/header/close.png"
-                alt="Закрыть меню"
-                class="close__btn"
-            />
+    <div class="burger-menu">
+        <button
+            class="burger-menu__close"
+            @click="toggleOpen"
+            aria-label="Закрыть меню"
+        >
+            <svg
+                class="close__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M18 6L6 18M6 6L18 18"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                />
+            </svg>
         </button>
-        <div class="burger__content">
-            <ul class="content__list">
-                <li>
-                    <router-link to="/" class="list__item">
-                        <img
-                            src="../assets/img/header/header-profile.png"
-                            alt="Профиль"
+
+        <div class="burger-menu__content">
+            <div class="burger-menu__header">
+                <h3 class="burger-menu__title">Меню</h3>
+            </div>
+
+            <nav class="burger-menu__nav">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <router-link
+                            to="/"
+                            class="nav__link"
+                            @click="toggleOpen"
+                        >
+                            <div class="nav__icon-wrapper">
+                                <svg
+                                    class="nav__icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M20 21V19C20 16.7909 18.2091 15 16 15H8C5.79086 15 4 16.7909 4 19V21"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                    />
+                                    <circle
+                                        cx="12"
+                                        cy="7"
+                                        r="4"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    />
+                                </svg>
+                            </div>
+                            <span class="nav__text">Профиль</span>
+                        </router-link>
+                    </li>
+                    <li class="nav__item">
+                        <router-link
+                            to="/favorites"
+                            class="nav__link"
+                            @click="toggleOpen"
+                        >
+                            <div class="nav__icon-wrapper">
+                                <svg
+                                    class="nav__icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M12 21L10.55 19.7C5.4 15.2 2 12.2 2 8.5C2 5.4 4.4 3 7.5 3C9.3 3 11 4 12 5.2C13 4 14.7 3 16.5 3C19.6 3 22 5.4 22 8.5C22 12.2 18.6 15.2 13.45 19.7L12 21Z"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                            </div>
+                            <span class="nav__text">Избранное</span>
+                        </router-link>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="burger-menu__footer">
+                <button class="footer__logout" @click="toggleOpen">
+                    <svg
+                        class="logout__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
                         />
-                        <span>Профиль</span>
-                    </router-link>
-                </li>
-            </ul>
+                        <path
+                            d="M16 17L21 12L16 7"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                        <path
+                            d="M21 12H9"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                    <span class="logout__text">Выйти</span>
+                </button>
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
 .overlay {
-    background-color: rgba(0, 0, 0, 0.35);
     position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    z-index: 3;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
 }
 
-.burger {
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(4px);
+    }
+}
+
+.burger-menu {
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 5;
-    background-color: var(--color-main);
-    width: 500px;
+    width: 450px;
     height: 100vh;
-    animation: burgerAnimate 0.3s;
+    background: linear-gradient(135deg, #ffffff, #faf7f2);
+    z-index: 1001;
+    animation: slideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: -10px 0 30px -10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
 }
 
-.close__btn {
-    width: 25px;
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.burger-menu__close {
     position: absolute;
-    right: 25px;
-    top: 38px;
-}
-
-.content__list {
-    padding: 50px;
-}
-
-.list__item {
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(226, 125, 96, 0.1);
+    border-radius: 50%;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    column-gap: 10px;
+    justify-content: center;
+    color: var(--color-accent);
+    transition: all 0.3s ease;
+    z-index: 10;
 }
 
-.list__item img {
-    width: 35px;
+.burger-menu__close:hover {
+    background: var(--color-accent);
+    color: white;
+    transform: rotate(90deg);
 }
 
-.list__item span {
-    font-size: 18px;
-    color: var(--color-black);
+.close__icon {
+    width: 20px;
+    height: 20px;
+}
+
+.burger-menu__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 5rem 2rem 2rem;
+}
+
+.burger-menu__header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.burger-menu__title {
+    font-family: var(--font-second);
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: #2d2d2d;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+}
+
+.burger-menu__title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-accent), #ffb347);
+    border-radius: 4px;
+}
+
+.burger-menu__nav {
+    flex: 1;
+}
+
+.nav__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.nav__item {
+    opacity: 0;
+    animation: fadeInItem 0.4s ease forwards;
+}
+
+.nav__item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+.nav__item:nth-child(2) {
+    animation-delay: 0.15s;
+}
+.nav__item:nth-child(3) {
+    animation-delay: 0.2s;
+}
+.nav__item:nth-child(4) {
+    animation-delay: 0.25s;
+}
+
+@keyframes fadeInItem {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.nav__link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    color: #2d2d2d;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(226, 125, 96, 0.1);
+}
+
+.nav__link:hover {
+    background: linear-gradient(135deg, var(--color-accent), #ff9f4b);
+    color: white;
+    transform: translateX(8px);
+    box-shadow: 0 8px 20px rgba(226, 125, 96, 0.3);
+    border-color: transparent;
+}
+
+.nav__icon-wrapper {
+    width: 40px;
+    height: 40px;
+    background: rgba(226, 125, 96, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.nav__link:hover .nav__icon-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.nav__icon {
+    width: 22px;
+    height: 22px;
+    color: var(--color-accent);
+    transition: all 0.3s ease;
+}
+
+.nav__link:hover .nav__icon {
+    color: white;
+    transform: scale(1.1);
+}
+
+.nav__text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.burger-menu__footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px dashed rgba(226, 125, 96, 0.2);
+}
+
+.footer__logout {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: none;
+    background: white;
+    border-radius: 50px;
+    color: #ff4444;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 68, 68, 0.2);
+}
+
+.footer__logout:hover {
+    background: #ff4444;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 68, 68, 0.3);
+}
+
+.logout__icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.footer__logout:hover .logout__icon {
+    transform: translateX(5px);
+}
+
+.logout__text {
+    transition: all 0.3s ease;
 }
 
 @media (max-width: 1024px) {
-    .burger {
-        width: 350px;
+    .burger-menu {
+        width: 400px;
     }
 
-    .close__btn {
-        width: 25px;
-        right: 25px;
-        top: 38px;
+    .burger-menu__title {
+        font-size: 2.2rem;
     }
 
-    .content__list {
-        padding: 30px;
+    .nav__link {
+        padding: 0.875rem 1.25rem;
     }
 
-    .list__item {
-        column-gap: 10px;
+    .nav__icon-wrapper {
+        width: 36px;
+        height: 36px;
     }
 
-    .list__item img {
-        width: 35px;
+    .nav__icon {
+        width: 20px;
+        height: 20px;
     }
 
-    .list__item span {
-        font-size: 18px;
-        color: var(--color-black);
+    .nav__text {
+        font-size: 1rem;
     }
 }
 
 @media (max-width: 768px) {
-    .burger {
-        width: 330px;
+    .burger-menu {
+        width: 380px;
     }
 
-    .close__btn {
-        width: 25px;
-        right: 26px;
-        top: 27px;
+    .burger-menu__close {
+        top: 1.25rem;
+        right: 1.25rem;
+        width: 36px;
+        height: 36px;
     }
 
-    .content__list {
-        padding: 30px;
+    .close__icon {
+        width: 18px;
+        height: 18px;
     }
 
-    .list__item {
-        column-gap: 10px;
+    .burger-menu__content {
+        padding: 4rem 1.5rem 1.5rem;
     }
 
-    .list__item img {
+    .burger-menu__title {
+        font-size: 2rem;
+    }
+
+    .nav__link {
+        padding: 0.75rem 1rem;
+    }
+
+    .nav__icon-wrapper {
         width: 32px;
+        height: 32px;
+        border-radius: 10px;
     }
 
-    .list__item span {
-        font-size: 17px;
-        color: var(--color-black);
+    .nav__icon {
+        width: 18px;
+        height: 18px;
     }
 
-    .close__btn {
-        width: 20px;
-        top: 29px;
-        right: 27px;
+    .footer__logout {
+        padding: 0.875rem;
+        font-size: 1rem;
     }
 }
 
-@media (max-width: 425px) {
-    .burger {
-        width: 75%;
+@media (max-width: 480px) {
+    .burger-menu {
+        width: 85%;
     }
 
-    .close__btn {
-        width: 25px;
-        right: 20px;
-        top: 20px;
+    .burger-menu__close {
+        top: 1rem;
+        right: 1rem;
+        width: 32px;
+        height: 32px;
     }
 
-    .content__list {
-        padding: 40px 30px;
+    .close__icon {
+        width: 16px;
+        height: 16px;
     }
 
-    .list__item {
-        column-gap: 10px;
+    .burger-menu__content {
+        padding: 3.5rem 1.25rem 1.25rem;
     }
 
-    .list__item img {
-        width: 30px;
+    .burger-menu__title {
+        font-size: 1.8rem;
     }
 
-    .list__item span {
-        font-size: 17px;
-        color: var(--color-black);
+    .burger-menu__title::after {
+        width: 40px;
+        height: 3px;
+        bottom: -8px;
     }
 
-    .close__btn {
-        width: 20px;
-        top: 23px;
-        right: 18px;
+    .nav__list {
+        gap: 0.5rem;
+    }
+
+    .nav__link {
+        padding: 0.625rem 0.875rem;
+        gap: 0.75rem;
+    }
+
+    .nav__icon-wrapper {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+    }
+
+    .nav__icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .nav__text {
+        font-size: 0.95rem;
+    }
+
+    .footer__logout {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+    }
+
+    .logout__icon {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 360px) {
+    .burger-menu__title {
+        font-size: 1.6rem;
+    }
+
+    .nav__link {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .nav__icon-wrapper {
+        width: 24px;
+        height: 24px;
+    }
+
+    .nav__icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    .nav__text {
+        font-size: 0.9rem;
     }
 }
 </style>
