@@ -143,17 +143,6 @@ defineProps<Props>()
     animation: fadeIn 0.3s ease;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        backdrop-filter: blur(0);
-    }
-    to {
-        opacity: 1;
-        backdrop-filter: blur(4px);
-    }
-}
-
 .burger-menu {
     position: fixed;
     top: 0;
@@ -166,15 +155,6 @@ defineProps<Props>()
     box-shadow: -10px 0 30px -10px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(0);
-    }
 }
 
 .burger-menu__close {
@@ -269,17 +249,6 @@ defineProps<Props>()
 }
 .nav__item:nth-child(4) {
     animation-delay: 0.25s;
-}
-
-@keyframes fadeInItem {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
 }
 
 .nav__link {
