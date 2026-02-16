@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import FoodPromo from '@/components/FoodPromo.vue'
 import { useCurrentFood } from '@/composables/useCurrentFood'
 import { useFoodStore } from '@/stores/foodStore'
 import { Food } from '@/types'
@@ -7,7 +8,6 @@ import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const foodStore = useFoodStore()
-
 const router = useRouter()
 const foodId = router.currentRoute.value.params.id
 
@@ -31,334 +31,358 @@ const handleIngridientClick = (ingredientName: string) => {
 </script>
 
 <template>
-    <div class="container">
-        <div class="food" v-if="food">
-            <img
-                :src="food.strMealThumb"
-                :alt="food.strMeal"
-                class="food__img"
-            />
-            <div class="main__content">
-                <div class="food__text">
-                    <h2 class="food__title">
-                        {{ food.strMeal }}
-                    </h2>
-                    <div class="block__content">
-                        <span class="block__text"
-                            >Source Link:
-                            <a :href="food.strSource" target="_blank">{{
-                                food.strSource
-                            }}</a></span
+    <div class="food-detail">
+        <div v-if="food" class="food-detail__container">
+            <FoodPromo :food="food" />
+            <div class="food-detail__content">
+                <div
+                    v-if="ingredients.length > 0"
+                    class="food-detail__ingredients"
+                >
+                    <h2 class="section-title">Ингредиенты</h2>
+                    <ul class="ingredients-list">
+                        <li
+                            v-for="(ingredient, index) in ingredients"
+                            :key="index"
+                            class="ingredients-list__item"
+                            @click="handleIngridientClick(ingredient.name)"
                         >
-                    </div>
-                    <div class="block__content">
-                        <span class="block__text"
-                            >Category: {{ food.strCategory }}</span
-                        >
-                    </div>
-
-                    <div
-                        class="block__content ingredients"
-                        v-if="ingredients.length > 0"
-                    >
-                        <h3 class="ingredients__title">Ingredients:</h3>
-                        <ul class="ingredients__list">
-                            <li
-                                v-for="(ingredient, index) in ingredients"
-                                :key="index"
-                                class="ingredients__item"
-                                @click="handleIngridientClick(ingredient.name)"
-                            >
-                                <span class="ingredient__name">{{
-                                    ingredient.name
-                                }}</span>
-                                <span class="ingredient__measure">{{
-                                    ingredient.measure
-                                }}</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="block__content">
-                        <span class="block__text">
-                            Guide: {{ food.strInstructions }}</span
-                        >
-                    </div>
+                            <span class="ingredients-list__name">{{
+                                ingredient.name
+                            }}</span>
+                            <span class="ingredients-list__measure">{{
+                                ingredient.measure
+                            }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="food-detail__instructions">
+                    <h2 class="section-title">Способ приготовления</h2>
+                    <p class="food-detail__guide">{{ food.strInstructions }}</p>
                 </div>
             </div>
-
-            <!-- ВИДЕО-ГАЙД -->
-            <iframe
-                v-if="youtubeEmbedUrl"
-                class="yt__video"
-                :src="youtubeEmbedUrl"
-                title="YouTube video player"
-                frameborder="0"
-                allow="
-                    accelerometer;
-                    autoplay;
-                    clipboard-write;
-                    encrypted-media;
-                    gyroscope;
-                    picture-in-picture;
-                "
-                allowfullscreen
-            />
+            <div v-if="youtubeEmbedUrl" class="food-detail__video">
+                <h2 class="section-title">Видео-рецепт</h2>
+                <div class="video-wrapper">
+                    <iframe
+                        :src="youtubeEmbedUrl"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="
+                            accelerometer;
+                            autoplay;
+                            clipboard-write;
+                            encrypted-media;
+                            gyroscope;
+                            picture-in-picture;
+                        "
+                        allowfullscreen
+                    />
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-.food {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    row-gap: 50px;
-    margin-bottom: 50px;
+.food-detail {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #faf7f2 0%, #ffffff 100%);
+    padding: 2rem 1rem;
 }
 
-.main__content {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    column-gap: 25px;
-    animation: fromLeftToRight 0.4s;
-    position: relative;
+.food-detail__container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.food__img {
-    width: 100%;
-    margin-top: 20px;
-    height: 400px;
-    border-radius: 5px;
-    object-fit: cover;
-    animation: fromRightToLeft 0.4s;
-    position: relative;
+.food-detail__content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
 }
 
-.food__text {
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
-    width: 100%;
+.food-detail__ingredients {
+    background: white;
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.6s ease-out 0.2s both;
+    height: fit-content;
+    border: 1px solid rgba(226, 125, 96, 0.1);
 }
 
-.food__title {
-    font-weight: 400;
-    font-size: 48px;
-    font-family: var(--font-second);
-    border-bottom: 3px solid var(--color-yellow);
-    color: var(--color-black);
-}
-
-.block__content {
-    display: flex;
-    flex-direction: column;
-    row-gap: 5px;
-}
-
-.block__text {
-    font-size: 18px;
+.section-title {
+    font-size: 1.8rem;
     font-weight: 500;
-}
-
-.block__text a {
-    color: var(--color-black);
-    text-decoration: underline;
-}
-
-/* СТИЛИ ДЛЯ ИНГРЕДИЕНТОВ */
-.ingredients {
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    border-left: 4px solid var(--color-yellow);
-}
-
-.ingredients__title {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 15px;
-    color: var(--color-black);
     font-family: var(--font-second);
+    color: var(--color-black);
+    margin: 0 0 1.5rem 0;
+    position: relative;
+    display: inline-block;
 }
 
-.ingredients__list {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        var(--color-accent),
+        var(--color-accent)
+    );
+    border-radius: 3px;
+}
+
+.ingredients-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.ingredients__item {
+.ingredients-list__item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
-    background-color: white;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s;
+    padding: 1rem 1.25rem;
+    background: var(--color-white);
+    border-radius: 16px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
 }
 
-.ingredients__item:hover {
-    transform: translateX(5px);
+.ingredients-list__item:hover {
+    transform: translateX(8px);
+    background: white;
+    border-color: var(--color-accent);
+    box-shadow: 0 5px 15px -5px rgba(226, 125, 96, 0.3);
 }
 
-.ingredient__name {
-    font-size: 16px;
+.ingredients-list__name {
+    font-size: 1.1rem;
     font-weight: 500;
-    color: #333;
+    color: #2d2d2d;
+    position: relative;
+    padding-left: 1.5rem;
 }
 
-.ingredient__measure {
-    font-size: 14px;
-    font-weight: 400;
+.ingredients-list__name::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.ingredients-list__measure {
+    font-size: 0.95rem;
     color: #666;
-    background-color: #f0f0f0;
-    padding: 4px 8px;
-    border-radius: 4px;
+    background: white;
+    padding: 0.4rem 1rem;
+    border-radius: 40px;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
 }
 
-.yt__video {
-    width: 560px;
-    height: 315px;
+.food-detail__instructions {
+    background: white;
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.6s ease-out 0.3s both;
+    border: 1px solid rgba(226, 125, 96, 0.1);
+}
+
+.food-detail__guide {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin: 0;
+    white-space: pre-line;
+}
+
+.food-detail__video {
+    margin-top: 2rem;
+    animation: fadeIn 0.6s ease-out 0.4s both;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+    background: var(--color-white);
+    margin-top: 1.5rem;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 1024px) {
-    .food {
-        row-gap: 20px;
+    .food-detail__image {
+        height: 400px;
     }
 
-    .food__img {
-        width: 100%;
-        margin-top: 15px;
-        height: 250px;
+    .food-detail__title {
+        font-size: 3rem;
     }
 
-    .food__text {
-        row-gap: 20px;
+    .food-detail__content {
+        gap: 1.5rem;
     }
 
-    .food__title {
-        font-size: 44px;
-        border-bottom: 3px solid var(--color-yellow);
-    }
-
-    .block__content {
-        row-gap: 4px;
-    }
-
-    .block__text {
-        font-size: 18px;
-    }
-
-    .ingredients__title {
-        font-size: 22px;
+    .food-detail__ingredients,
+    .food-detail__instructions {
+        padding: 1.5rem;
     }
 }
 
 @media (max-width: 768px) {
-    .food {
-        row-gap: 20px;
+    .food-detail {
+        padding: 1rem;
     }
 
-    .food__img {
-        width: 100%;
-        margin-top: 15px;
-        height: 200px;
+    .food-detail__image {
+        height: 300px;
     }
 
-    .food__text {
-        row-gap: 15px;
+    .food-detail__hero-overlay {
+        padding: 1.5rem;
     }
 
-    .food__title {
-        font-size: 38px;
-        border-bottom: 2px solid var(--color-yellow);
+    .food-detail__title {
+        font-size: 2.5rem;
     }
 
-    .block__content {
-        row-gap: 4px;
+    .food-detail__meta {
+        gap: 1rem;
     }
 
-    .block__text {
-        font-size: 16px;
+    .food-detail__content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
-    .ingredients {
-        padding: 12px;
+    .food-detail__category,
+    .food-detail__source {
+        font-size: 1rem;
     }
 
-    .ingredients__title {
-        font-size: 20px;
+    .section-title {
+        font-size: 1.6rem;
     }
 
-    .ingredients__item {
-        padding: 6px 10px;
+    .ingredients-list__item {
+        padding: 0.875rem 1rem;
     }
 
-    .ingredient__name {
-        font-size: 15px;
+    .ingredients-list__name {
+        font-size: 1rem;
+        padding-left: 1.25rem;
     }
 
-    .ingredient__measure {
-        font-size: 13px;
-        padding: 3px 6px;
+    .ingredients-list__measure {
+        font-size: 0.875rem;
+        padding: 0.3rem 0.875rem;
     }
 
-    .yt__video {
-        width: 355px;
-        height: 200px;
+    .food-detail__guide {
+        font-size: 1rem;
+        line-height: 1.7;
     }
 }
 
-@media (max-width: 425px) {
-    .food {
-        row-gap: 20px;
+@media (max-width: 480px) {
+    .food-detail__image {
+        height: 250px;
     }
 
-    .food__img {
-        width: 100%;
-        margin-top: 15px;
-        height: 200px;
+    .food-detail__title {
+        font-size: 2rem;
     }
 
-    .food__text {
-        row-gap: 15px;
+    .food-detail__hero-overlay {
+        padding: 1rem;
     }
 
-    .food__title {
-        font-size: 36px;
-        border-bottom: 2px solid var(--color-yellow);
+    .food-detail__meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
     }
 
-    .block__content {
-        row-gap: 4px;
+    .section-title {
+        font-size: 1.4rem;
     }
 
-    .block__text {
-        font-size: 16px;
+    .section-title::after {
+        width: 40px;
     }
 
-    .ingredients__title {
-        font-size: 18px;
+    .food-detail__ingredients,
+    .food-detail__instructions {
+        padding: 1.25rem;
+        border-radius: 20px;
     }
 
-    .ingredient__name {
-        font-size: 14px;
+    .ingredients-list__item {
+        padding: 0.75rem 1rem;
     }
 
-    .ingredient__measure {
-        font-size: 12px;
+    .ingredients-list__name::before {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .food-detail__title {
+        font-size: 1.75rem;
     }
 
-    .yt__video {
-        width: 100%;
-        height: 200px;
+    .ingredients-list__item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .ingredients-list__measure {
+        align-self: flex-start;
     }
 }
 </style>

@@ -60,7 +60,7 @@ const toggleOpen = () => {
 }
 
 .search__button {
-    background-color: var(--color-white-dark);
+    background-color: var(--color-main-dark);
     padding: 12px;
     border-radius: var(--border-radius);
     display: none;
@@ -71,7 +71,7 @@ const toggleOpen = () => {
 }
 
 .input__content {
-    background-color: var(--color-white-dark);
+    background-color: var(--color-white);
     font-weight: 300;
     font-size: 20px;
     padding: 12px 20px;
@@ -91,7 +91,7 @@ const toggleOpen = () => {
 }
 
 .search__ingiridients {
-    background-color: var(--color-white-dark);
+    background-color: var(--color-main-dark);
     border-radius: var(--border-radius);
     padding: 10px 20px;
     margin-top: 10px;

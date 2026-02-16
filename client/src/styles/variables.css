@@ -3,16 +3,16 @@
     --container-padding-x: 24px;
     --container-padding-mobile-x: 16px;
 
-    --font-family: 'Inter', sans-serif;
-    --font-second: 'Irish Grover', system-ui;
+    --font-family: 'Montserrat', sans-serif;
+    --font-second: 'Merriweather', serif;
 
     --border-radius: 12px;
 
-    --color-white: #ffffff;
+    --color-white: #fafafa;
+    --color-main: #e0f2e9;
+    --color-accent: #b1dda6;
+    --color-add: #f3b33d;
     --color-black: #000000;
-    --color-white-dark: #F0F0F0;
-    --color-yellow: #F9EB9F;
-    --color-yellow-dark: #ecdc7f;
 
     --transition-duration: 0.2s;
 }

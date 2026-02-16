@@ -5,149 +5,396 @@ const foodStore = useFoodStore()
 </script>
 
 <template>
-    <div v-if="foodStore.isLoading" class="list__loading">Загрузка...</div>
-    <ul v-else class="list__content">
-        <li
-            v-for="food in foodStore.foodData"
-            :key="food.idMeal"
-            class="list__item-wrapper"
-        >
-            <router-link :to="`/food/${food.idMeal}`" class="list__item">
-                <div class="list__item-image">
-                    <img :src="food.strMealThumb" :alt="food.strMeal" />
-                </div>
-                <div class="list__item-content">
-                    <p>{{ food.strMeal }}</p>
-                </div>
-            </router-link>
-        </li>
-    </ul>
-    <div
-        v-if="!foodStore.foodData.length && !foodStore.isLoading"
-        class="list__loading"
-    >
-        Ничего не найдено (возможно ошибка API, попробуйте включить VPN)
+    <div class="recipes">
+        <div v-if="foodStore.isLoading" class="recipes__state">
+            <div class="recipes__loader">
+                <svg class="recipes__spinner" viewBox="0 0 50 50">
+                    <circle
+                        class="spinner__path"
+                        cx="25"
+                        cy="25"
+                        r="20"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="4"
+                    />
+                </svg>
+                <p class="recipes__state-text">Загружаем рецепты...</p>
+            </div>
+        </div>
+
+        <ul v-else-if="foodStore.foodData.length" class="recipes__grid">
+            <li
+                v-for="(food, index) in foodStore.foodData"
+                :key="food.idMeal"
+                class="recipes__item"
+                :style="{ animationDelay: `${index * 0.05}s` }"
+            >
+                <router-link :to="`/food/${food.idMeal}`" class="recipe-card">
+                    <div class="recipe-card__image-wrapper">
+                        <img
+                            :src="food.strMealThumb"
+                            :alt="food.strMeal"
+                            class="recipe-card__image"
+                            loading="lazy"
+                        />
+                        <div class="recipe-card__overlay">
+                            <span class="recipe-card__view">Смотреть</span>
+                        </div>
+                    </div>
+                    <div class="recipe-card__content">
+                        <h3 class="recipe-card__title">{{ food.strMeal }}</h3>
+                    </div>
+                </router-link>
+            </li>
+        </ul>
+
+        <div v-else class="recipes__state">
+            <div class="recipes__empty">
+                <svg
+                    class="recipes__empty-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                >
+                    <path
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                </svg>
+                <p class="recipes__state-text">Ничего не найдено</p>
+                <p class="recipes__state-hint">
+                    Попробуйте изменить параметры поиска или включить VPN
+                </p>
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.list__content {
-    margin-top: 20px;
+.recipes {
+    width: 100%;
+    min-height: 400px;
+    padding: 1rem 0;
+}
+
+.recipes__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-    gap: 21px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.8rem;
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.list__item-wrapper {
-    display: flex;
-    height: 100%;
+.recipes__item {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
 }
 
-.list__item {
-    flex: 1;
+.recipe-card {
     display: flex;
     flex-direction: column;
-    background-color: var(--color-white-dark);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    text-decoration: none;
-    transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
     height: 100%;
-}
-
-.list__item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.list__item-image {
-    width: 100%;
-    height: 180px;
+    text-decoration: none;
+    background: white;
+    border-radius: 20px;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-white);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(226, 125, 96, 0.1);
 }
 
-.list__item-image img {
+.recipe-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px -8px rgba(226, 125, 96, 0.2);
+    border-color: var(--color-accent);
+}
+
+.recipe-card__image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%;
+    overflow: hidden;
+    background: linear-gradient(45deg, #f3f3f3, #e9e9e9);
+}
+
+.recipe-card__image {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    transition: transform 0.5s ease;
 }
 
-.list__item-content {
-    padding: 20px;
+.recipe-card:hover .recipe-card__image {
+    transform: scale(1.08);
+}
+
+.recipe-card__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-height: 80px; /* Минимальная высота для контента */
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-.list__item-content p {
-    color: var(--color-black);
-    font-size: 17px;
+.recipe-card:hover .recipe-card__overlay {
+    opacity: 1;
+}
+
+.recipe-card__view {
+    color: white;
+    font-size: 1rem;
     font-weight: 500;
+    padding: 0.6rem 1.5rem;
+    border: 2px solid white;
+    border-radius: 40px;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.recipe-card:hover .recipe-card__view {
+    transform: translateY(0);
+}
+
+.recipe-card__content {
+    padding: 1.2rem 1rem;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+.recipe-card__title {
     margin: 0;
-    line-height: 1.4;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2d2d2d;
     text-align: center;
+    line-height: 1.5;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    word-break: break-word;
+    transition: color 0.3s ease;
 }
 
-.list__loading {
+.recipe-card:hover .recipe-card__title {
+    color: var(--color-accent);
+}
+
+.recipes__state {
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 300px;
-    font-size: 18px;
-    color: var(--color-gray);
+    justify-content: center;
+    min-height: 400px;
+    width: 100%;
+}
+
+.recipes__loader,
+.recipes__empty {
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Спиннер */
+.recipes__spinner {
+    width: 50px;
+    height: 50px;
+    animation: rotate 1.5s linear infinite;
+    color: var(--color-accent);
+    margin: 0 auto 1rem;
+}
+
+.spinner__path {
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+    stroke: currentColor;
+}
+
+.recipes__empty-icon {
+    width: 80px;
+    height: 80px;
+    color: #ccc;
+    margin: 0 auto 1rem;
+    animation: pulse 2s infinite;
+}
+
+.recipes__state-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #666;
+    margin: 0 0 0.5rem;
+}
+
+.recipes__state-hint {
+    font-size: 0.95rem;
+    color: #999;
+    margin: 0;
+    max-width: 300px;
+    line-height: 1.5;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(0.95);
+    }
 }
 
 @media (max-width: 768px) {
-    .list__content {
+    .recipes__grid {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 15px;
+        gap: 1.2rem;
     }
 
-    .list__item-image {
-        height: 150px;
+    .recipe-card__content {
+        padding: 1rem 0.8rem;
     }
 
-    .list__item-content {
-        padding: 15px;
+    .recipe-card__title {
+        font-size: 0.95rem;
     }
 
-    .list__item-content p {
-        font-size: 15px;
+    .recipes__state-text {
+        font-size: 1.1rem;
+    }
+
+    .recipes__empty-icon {
+        width: 60px;
+        height: 60px;
     }
 }
 
 @media (max-width: 480px) {
-    .list__content {
+    .recipes__grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        gap: 0.8rem;
     }
 
-    .list__item-image {
-        height: 120px;
+    .recipe-card__image-wrapper {
+        padding-bottom: 80%;
     }
 
-    .list__item-content {
-        padding: 10px;
-        min-height: 60px;
+    .recipe-card__content {
+        padding: 0.8rem 0.5rem;
+    }
+
+    .recipe-card__title {
+        font-size: 0.9rem;
+    }
+
+    .recipe-card__view {
+        font-size: 0.85rem;
+        padding: 0.4rem 1rem;
+    }
+
+    .recipes__state {
+        min-height: 300px;
+    }
+
+    .recipes__spinner {
+        width: 40px;
+        height: 40px;
+    }
+
+    .recipes__state-text {
+        font-size: 1rem;
+    }
+
+    .recipes__state-hint {
+        font-size: 0.85rem;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .recipes__grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .recipe-card {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .recipe-card__image-wrapper {
+        width: 100px;
+        padding-bottom: 100px;
+        flex-shrink: 0;
+    }
+
+    .recipe-card__content {
+        flex: 1;
+        padding: 1rem;
+    }
+
+    .recipe-card__title {
+        text-align: left;
+        font-size: 0.95rem;
+    }
+
+    .recipe-card__overlay {
+        display: none;
     }
 }
 </style>

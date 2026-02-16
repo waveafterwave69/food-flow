@@ -46,7 +46,7 @@ defineProps<Props>()
     top: 0;
     right: 0;
     z-index: 5;
-    background-color: var(--color-white);
+    background-color: var(--color-main);
     width: 500px;
     height: 100vh;
     animation: burgerAnimate 0.3s;

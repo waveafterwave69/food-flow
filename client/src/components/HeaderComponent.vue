@@ -52,7 +52,7 @@ const toggleOpen = () => {
 .header {
     top: 0;
     padding: 20px 0px;
-    background-color: var(--color-yellow);
+    background-color: var(--color-accent);
     position: relative;
     animation: fromTopToBottom 0.5s;
 }
@@ -83,8 +83,8 @@ const toggleOpen = () => {
 
 .logo__text h2 {
     font-family: var(--font-second);
-    font-weight: 400;
-    font-size: 38px;
+    font-weight: 500;
+    font-size: 34px;
     color: var(--color-black);
     line-height: 40px;
 }
@@ -92,8 +92,7 @@ const toggleOpen = () => {
 .logo__text h3 {
     font-family: var(--font-family);
     font-weight: 400;
-    font-size: 18px;
-    color: #614f09;
+    font-size: 16px;
 }
 
 .profile__img {

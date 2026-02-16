@@ -40,10 +40,9 @@ const resetFilters = () => {
 <template>
     <aside class="panel">
         <div class="top__content">
-            <h3 class="panel__title">Фильтры</h3>
+            <h3 class="panel__title">Категории</h3>
             <div class="panel__blocks">
                 <div class="panel__block panel__block-category">
-                    <div class="block__title">Категории:</div>
                     <ul class="block__list">
                         <li
                             class="list__item"
@@ -84,7 +83,7 @@ const resetFilters = () => {
 
 <style scoped>
 .panel {
-    background-color: var(--color-white-dark);
+    background-color: var(--color-white);
     padding: 20px 25px;
     border-radius: var(--border-radius);
     display: flex;
@@ -98,14 +97,13 @@ const resetFilters = () => {
 }
 
 .panel__title {
-    max-width: 150px;
     margin: 0 auto;
     font-family: var(--font-family);
     font-weight: 500;
     font-size: 26px;
     text-align: center;
     margin-bottom: 40px;
-    border-bottom: 3px solid var(--color-yellow-dark);
+    border-bottom: 3px solid var(--color-accent);
 }
 
 .panel__block-category {
@@ -119,7 +117,7 @@ const resetFilters = () => {
 }
 
 .block__list {
-    background-color: var(--color-white);
+    background-color: var(--color-main);
     padding: 12px 20px;
     border-radius: var(--border-radius);
     display: flex;
@@ -131,7 +129,7 @@ const resetFilters = () => {
     display: flex;
     align-items: center;
     column-gap: 10px;
-    font-weight: 200;
+
     font-size: 18px;
 }
 
@@ -156,7 +154,7 @@ const resetFilters = () => {
 }
 
 .panel__button-apply {
-    background-color: var(--color-yellow-dark);
+    background-color: var(--color-accent);
 }
 
 .panel__button-reset {
