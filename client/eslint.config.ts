@@ -2,14 +2,15 @@ import js from '@eslint/js'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 import pluginVue from 'eslint-plugin-vue'
-import { defineConfig } from 'eslint/config'
 
-export default defineConfig([
+export default [
     {
         files: ['**/*.{js,mjs,cjs,ts,mts,cts,vue}'],
-        plugins: { js },
-        extends: ['js/recommended'],
-        languageOptions: { globals: globals.browser },
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+            },
+        },
         rules: {
             'no-console': 'warn',
             'no-else-return': 'warn',
@@ -18,10 +19,15 @@ export default defineConfig([
             'prefer-const': 'error',
         },
     },
-    tseslint.configs.recommended,
-    pluginVue.configs['flat/essential'],
+    js.configs.recommended,
+    ...tseslint.configs.recommended,
+    ...pluginVue.configs['flat/essential'],
     {
         files: ['**/*.vue'],
-        languageOptions: { parserOptions: { parser: tseslint.parser } },
+        languageOptions: {
+            parserOptions: {
+                parser: tseslint.parser,
+            },
+        },
     },
-])
+]
