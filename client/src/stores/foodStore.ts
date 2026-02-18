@@ -69,7 +69,7 @@ export const useFoodStore = defineStore('food', () => {
         }
     }
 
-    const { debounceFunc, cleanup } = useDebounce(500, fetchFood)
+    const { debounceFunc, cleanup } = useDebounce(fetchFood, 500)
 
     watch(searchValue, () => {
         debounceFunc()

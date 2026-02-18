@@ -1,4 +1,4 @@
-export const useDebounce = (debounceDelay: number, func: Function) => {
+export const useDebounce = (func: () => void, debounceDelay: number) => {
     let debounceTimeout: NodeJS.Timeout | null = null
     const DEBOUNCE_DELAY = debounceDelay
 
