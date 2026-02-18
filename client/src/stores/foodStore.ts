@@ -1,7 +1,9 @@
 import { apiServices } from '@/api/foodApi'
-import { CategoryItem, Food } from '@/types'
+import { useDebounce } from '@/composables/useDebounce'
+import { CategoryItem } from '@/types/category'
+import { Food } from '@/types/food'
 import { defineStore } from 'pinia'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 export const useFoodStore = defineStore('food', () => {
     const foodData = ref<Food[]>([])
@@ -9,62 +11,14 @@ export const useFoodStore = defineStore('food', () => {
     const searchValue = ref<string>('')
     const ingridientValue = ref<string>('')
     const errorMessage = ref<Error>()
-
     const selectedCategory = ref<string>('')
     const tempSelectedCategory = ref<string>('')
-
     const selectedCuisine = ref<string>('All')
-
     const debounceTimeout = ref<NodeJS.Timeout | null>(null)
-    const DEBOUNCE_DELAY = 500
 
     const shouldSearchByName = computed(() => {
         return searchValue.value.trim().length > 0
     })
-
-    watch(searchValue, () => {
-        debouncedFetchFood()
-    })
-
-    onMounted(() => {
-        fetchFood()
-    })
-
-    const changeCategory = (category: CategoryItem) => {
-        tempSelectedCategory.value =
-            tempSelectedCategory.value === category.codeName
-                ? ''
-                : category.codeName
-    }
-
-    const applyIngridient = (ingredient: string) => {
-        ingridientValue.value = ingredient
-        fetchFood()
-    }
-
-    const resetIngridient = () => {
-        ingridientValue.value = ''
-        fetchFood()
-    }
-
-    const applyFilters = () => {
-        selectedCategory.value = tempSelectedCategory.value
-        fetchFood()
-    }
-
-    const resetTempCategory = () => {
-        tempSelectedCategory.value = selectedCategory.value
-    }
-
-    const debouncedFetchFood = () => {
-        if (debounceTimeout.value) {
-            clearTimeout(debounceTimeout.value)
-        }
-
-        debounceTimeout.value = setTimeout(() => {
-            fetchFood()
-        }, DEBOUNCE_DELAY)
-    }
 
     const fetchFood = async () => {
         if (debounceTimeout.value) {
@@ -115,6 +69,38 @@ export const useFoodStore = defineStore('food', () => {
         }
     }
 
+    const { debounceFunc, cleanup } = useDebounce(500, fetchFood)
+
+    watch(searchValue, () => {
+        debounceFunc()
+    })
+
+    const changeCategory = (category: CategoryItem) => {
+        tempSelectedCategory.value =
+            tempSelectedCategory.value === category.codeName
+                ? ''
+                : category.codeName
+    }
+
+    const applyIngridient = (ingredient: string) => {
+        ingridientValue.value = ingredient
+        fetchFood()
+    }
+
+    const resetIngridient = () => {
+        ingridientValue.value = ''
+        fetchFood()
+    }
+
+    const applyFilters = () => {
+        selectedCategory.value = tempSelectedCategory.value
+        fetchFood()
+    }
+
+    const resetTempCategory = () => {
+        tempSelectedCategory.value = selectedCategory.value
+    }
+
     const resetSearch = () => {
         searchValue.value = ''
         selectedCategory.value = ''
@@ -130,13 +116,6 @@ export const useFoodStore = defineStore('food', () => {
         fetchFood()
     }
 
-    const cleanup = () => {
-        if (debounceTimeout.value) {
-            clearTimeout(debounceTimeout.value)
-            debounceTimeout.value = null
-        }
-    }
-
     return {
         searchValue,
         foodData,
@@ -148,7 +127,6 @@ export const useFoodStore = defineStore('food', () => {
         applyFilters,
         resetTempCategory,
         fetchFood,
-        debouncedFetchFood,
         resetSearch,
         resetAllFilters,
         cleanup,

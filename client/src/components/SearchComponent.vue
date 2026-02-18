@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFoodStore } from '@/stores/foodStore'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import BackPanel from './BackPanel.vue'
 
 const foodStore = useFoodStore()
@@ -12,34 +12,34 @@ const toggleOpen = () => {
 </script>
 
 <template>
-    <div class="search-section">
+    <div class="search__section">
         <BackPanel v-if="isOpenPanel" :toggleOpen="toggleOpen" />
 
-        <div class="search-bar">
+        <div class="search__bar">
             <button
                 v-if="!foodStore.ingridientValue"
-                class="search-bar__filter-btn"
+                class="search__bar__filter-btn"
                 @click="toggleOpen"
                 aria-label="Открыть фильтры"
                 title="Фильтры"
             >
                 <img
-                    class="search-bar__img"
+                    class="search__bar__img"
                     src="../assets/img/header/menu.png"
                     alt=""
                 />
             </button>
 
-            <div class="search-bar__input-wrapper">
+            <div class="search__bar__input-wrapper">
                 <input
                     type="text"
                     v-model="foodStore.searchValue"
-                    class="search-bar__input"
+                    class="search__bar__input"
                     placeholder="Название блюда (на английском)"
                     aria-label="Поиск рецептов"
                 />
                 <button
-                    class="search-bar__submit-btn"
+                    class="search__bar__submit-btn"
                     aria-label="Найти"
                     title="Найти"
                 >
@@ -105,32 +105,32 @@ const toggleOpen = () => {
 </template>
 
 <style scoped>
-.search-section {
+.search__section {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
 }
 
-.search-bar {
+.search__bar {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     width: 100%;
 }
 
-.search-bar__filter-btn {
+.search__bar__filter-btn {
     display: none;
     padding: 20px;
     border-radius: 10px;
     background-color: #fff;
 }
 
-.search-bar__img {
+.search__bar__img {
     width: 20px;
 }
 
-.search-bar__filter-btn::before {
+.search__bar__filter-btn::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -145,17 +145,17 @@ const toggleOpen = () => {
         height 0.5s;
 }
 
-.search-bar__filter-btn:hover::before {
+.search__bar__filter-btn:hover::before {
     width: 200px;
     height: 200px;
 }
 
-.search-bar__filter-btn:hover {
+.search__bar__filter-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(226, 125, 96, 0.3);
 }
 
-.search-bar__filter-btn:active {
+.search__bar__filter-btn:active {
     transform: translateY(0);
 }
 
@@ -166,7 +166,7 @@ const toggleOpen = () => {
     z-index: 1;
 }
 
-.search-bar__input-wrapper {
+.search__bar__input-wrapper {
     flex: 1;
     display: flex;
     align-items: center;
@@ -179,13 +179,13 @@ const toggleOpen = () => {
     backdrop-filter: blur(10px);
 }
 
-.search-bar__input-wrapper:focus-within {
+.search__bar__input-wrapper:focus-within {
     border-color: var(--color-accent);
     box-shadow: 0 8px 25px rgba(226, 125, 96, 0.15);
     transform: scale(1.01);
 }
 
-.search-bar__input {
+.search__bar__input {
     flex: 1;
     border: none;
     outline: none;
@@ -196,17 +196,17 @@ const toggleOpen = () => {
     padding: 0.5rem 0;
 }
 
-.search-bar__input::placeholder {
+.search__bar__input::placeholder {
     color: #aaa;
     font-weight: 300;
     transition: opacity 0.3s ease;
 }
 
-.search-bar__input:focus::placeholder {
+.search__bar__input:focus::placeholder {
     opacity: 0.7;
 }
 
-.search-bar__submit-btn {
+.search__bar__submit-btn {
     background: none;
     border: none;
     padding: 0.6rem;
@@ -220,13 +220,13 @@ const toggleOpen = () => {
     background: #f5f5f5;
 }
 
-.search-bar__submit-btn:hover {
+.search__bar__submit-btn:hover {
     color: var(--color-accent);
     background: #f0f0f0;
     transform: scale(1.05);
 }
 
-.search-bar__submit-btn:active {
+.search__bar__submit-btn:active {
     transform: scale(0.95);
 }
 
@@ -305,13 +305,13 @@ const toggleOpen = () => {
 }
 
 @media (max-width: 1800px) {
-    .search-bar__filter-btn {
+    .search__bar__filter-btn {
         display: flex;
     }
 }
 
 @media (max-width: 1024px) {
-    .search-bar__filter-btn {
+    .search__bar__filter-btn {
         padding: 0.7rem;
     }
 
@@ -320,11 +320,11 @@ const toggleOpen = () => {
         height: 22px;
     }
 
-    .search-bar__input-wrapper {
+    .search__bar__input-wrapper {
         padding: 0.4rem 0.4rem 0.4rem 1rem;
     }
 
-    .search-bar__input {
+    .search__bar__input {
         font-size: 0.95rem;
     }
 
@@ -343,7 +343,7 @@ const toggleOpen = () => {
 }
 
 @media (max-width: 768px) {
-    .search-bar__filter-btn {
+    .search__bar__filter-btn {
         padding: 0.6rem;
     }
 
@@ -352,11 +352,11 @@ const toggleOpen = () => {
         height: 20px;
     }
 
-    .search-bar__input-wrapper {
+    .search__bar__input-wrapper {
         padding: 0.3rem 0.3rem 0.3rem 0.9rem;
     }
 
-    .search-bar__input {
+    .search__bar__input {
         font-size: 0.9rem;
     }
 
@@ -365,7 +365,7 @@ const toggleOpen = () => {
         height: 18px;
     }
 
-    .search-bar__submit-btn {
+    .search__bar__submit-btn {
         padding: 0.5rem;
     }
 
@@ -389,11 +389,11 @@ const toggleOpen = () => {
 }
 
 @media (max-width: 480px) {
-    .search-bar {
+    .search__bar {
         gap: 0.5rem;
     }
 
-    .search-bar__filter-btn {
+    .search__bar__filter-btn {
         padding: 0.5rem;
     }
 
@@ -402,15 +402,15 @@ const toggleOpen = () => {
         height: 18px;
     }
 
-    .search-bar__input-wrapper {
+    .search__bar__input-wrapper {
         padding: 0.2rem 0.2rem 0.2rem 0.8rem;
     }
 
-    .search-bar__input {
+    .search__bar__input {
         font-size: 0.85rem;
     }
 
-    .search-bar__input::placeholder {
+    .search__bar__input::placeholder {
         font-size: 0.85rem;
     }
 
@@ -419,7 +419,7 @@ const toggleOpen = () => {
         height: 16px;
     }
 
-    .search-bar__submit-btn {
+    .search__bar__submit-btn {
         padding: 0.4rem;
     }
 
