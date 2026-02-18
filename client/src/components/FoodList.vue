@@ -97,17 +97,15 @@ const foodStore = useFoodStore()
     flex-direction: column;
     height: 100%;
     text-decoration: none;
-    background: white;
+    background: var(--color-light);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     border: 1px solid rgba(226, 125, 96, 0.1);
 }
 
 .recipe-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 30px -8px rgba(226, 125, 96, 0.2);
     border-color: var(--color-accent);
 }
 
@@ -116,7 +114,6 @@ const foodStore = useFoodStore()
     width: 100%;
     padding-bottom: 75%;
     overflow: hidden;
-    background: linear-gradient(45deg, #f3f3f3, #e9e9e9);
 }
 
 .recipe-card__image {
@@ -152,11 +149,11 @@ const foodStore = useFoodStore()
 }
 
 .recipe-card__view {
-    color: white;
+    color: var(--color-light);
     font-size: 1rem;
     font-weight: 500;
     padding: 0.6rem 1.5rem;
-    border: 2px solid white;
+    border: 2px solid var(--color-light);
     border-radius: 40px;
     transform: translateY(20px);
     transition: transform 0.3s ease;
@@ -174,7 +171,7 @@ const foodStore = useFoodStore()
     display: flex;
     align-items: center;
     justify-content: center;
-    background: white;
+    background: var(--color-light);
 }
 
 .recipe-card__title {

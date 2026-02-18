@@ -3,8 +3,13 @@ import BackPanel from '@/components/BackPanel.vue'
 import FoodList from '@/components/FoodList.vue'
 import SearchComponent from '@/components/SearchComponent.vue'
 import { useFoodStore } from '@/stores/foodStore'
+import { onMounted } from 'vue'
 
 const foodStore = useFoodStore()
+
+onMounted(() => {
+    foodStore.fetchFood()
+})
 </script>
 
 <template>

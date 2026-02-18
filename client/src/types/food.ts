@@ -53,9 +53,3 @@ export interface Food {
     strTags: string | null
     strYoutube: string
 }
-
-export interface CategoryItem {
-    codeName: string
-    title: string
-    icon: string
-}

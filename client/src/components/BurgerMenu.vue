@@ -4,13 +4,26 @@ interface Props {
 }
 
 defineProps<Props>()
+
+const menuNav = [
+    {
+        icon: './src/assets/img/burger/user-icon.png',
+        label: 'Профиль',
+        route: '/profile',
+    },
+    {
+        icon: './src/assets/img/burger/favorites-icon.png',
+        label: 'Избранное',
+        route: '/favorites',
+    },
+]
 </script>
 
 <template>
     <div class="overlay" @click="toggleOpen"></div>
-    <div class="burger-menu">
+    <div class="burger__menu">
         <button
-            class="burger-menu__close"
+            class="burger__menu-close"
             @click="toggleOpen"
             aria-label="Закрыть меню"
         >
@@ -29,67 +42,31 @@ defineProps<Props>()
             </svg>
         </button>
 
-        <div class="burger-menu__content">
-            <div class="burger-menu__header">
-                <h3 class="burger-menu__title">Меню</h3>
+        <div class="burger__menu-content">
+            <div class="burger__menu-header">
+                <h3 class="burger__menu-title">Меню</h3>
             </div>
 
-            <nav class="burger-menu__nav">
+            <nav class="burger__menu-nav">
                 <ul class="nav__list">
-                    <li class="nav__item">
+                    <li
+                        class="nav__item"
+                        v-for="item in menuNav"
+                        :key="item.label"
+                    >
                         <router-link
-                            to="/"
+                            :to="item.route"
                             class="nav__link"
                             @click="toggleOpen"
                         >
                             <div class="nav__icon-wrapper">
-                                <svg
-                                    class="nav__icon"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M20 21V19C20 16.7909 18.2091 15 16 15H8C5.79086 15 4 16.7909 4 19V21"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                    />
-                                    <circle
-                                        cx="12"
-                                        cy="7"
-                                        r="4"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                    />
-                                </svg>
+                                <img
+                                    class="nav__icon-img"
+                                    :src="item.icon"
+                                    :alt="item.label"
+                                />
                             </div>
-                            <span class="nav__text">Профиль</span>
-                        </router-link>
-                    </li>
-                    <li class="nav__item">
-                        <router-link
-                            to="/favorites"
-                            class="nav__link"
-                            @click="toggleOpen"
-                        >
-                            <div class="nav__icon-wrapper">
-                                <svg
-                                    class="nav__icon"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M12 21L10.55 19.7C5.4 15.2 2 12.2 2 8.5C2 5.4 4.4 3 7.5 3C9.3 3 11 4 12 5.2C13 4 14.7 3 16.5 3C19.6 3 22 5.4 22 8.5C22 12.2 18.6 15.2 13.45 19.7L12 21Z"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                </svg>
-                            </div>
-                            <span class="nav__text">Избранное</span>
+                            <span class="nav__text">{{ item.label }}</span>
                         </router-link>
                     </li>
                 </ul>
@@ -143,7 +120,7 @@ defineProps<Props>()
     animation: fadeIn 0.3s ease;
 }
 
-.burger-menu {
+.burger__menu {
     position: fixed;
     top: 0;
     right: 0;
@@ -152,12 +129,11 @@ defineProps<Props>()
     background: linear-gradient(135deg, #ffffff, #faf7f2);
     z-index: 1001;
     animation: slideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: -10px 0 30px -10px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
 }
 
-.burger-menu__close {
+.burger__menu-close {
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
@@ -170,14 +146,13 @@ defineProps<Props>()
     display: flex;
     align-items: center;
     justify-content: center;
-
     transition: all 0.3s ease;
     z-index: 10;
 }
 
-.burger-menu__close:hover {
+.burger__menu-close:hover {
     background: var(--color-accent);
-    color: white;
+    color: var(--color-light);
     transform: rotate(90deg);
 }
 
@@ -186,19 +161,19 @@ defineProps<Props>()
     height: 20px;
 }
 
-.burger-menu__content {
+.burger__menu-content {
     flex: 1;
     display: flex;
     flex-direction: column;
     padding: 5rem 2rem 2rem;
 }
 
-.burger-menu__header {
+.burger__menu-header {
     margin-bottom: 3rem;
     text-align: center;
 }
 
-.burger-menu__title {
+.burger__menu-title {
     font-family: var(--font-second);
     font-size: 2.5rem;
     font-weight: 500;
@@ -207,7 +182,7 @@ defineProps<Props>()
     display: inline-block;
 }
 
-.burger-menu__title::after {
+.burger__menu-title::after {
     content: '';
     position: absolute;
     bottom: -10px;
@@ -219,7 +194,7 @@ defineProps<Props>()
     border-radius: 4px;
 }
 
-.burger-menu__nav {
+.burger__menu-nav {
     flex: 1;
 }
 
@@ -259,16 +234,14 @@ defineProps<Props>()
     color: #2d2d2d;
     border-radius: 16px;
     transition: all 0.3s ease;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    background: var(--color-light);
     border: 1px solid rgba(226, 125, 96, 0.1);
 }
 
 .nav__link:hover {
     background: var(--color-accent);
-    color: white;
+    color: var(--color-light);
     transform: translateX(8px);
-    box-shadow: 0 8px 20px rgba(226, 125, 96, 0.3);
     border-color: transparent;
 }
 
@@ -294,9 +267,13 @@ defineProps<Props>()
     transition: all 0.3s ease;
 }
 
-.nav__link:hover .nav__icon {
-    color: white;
-    transform: scale(1.1);
+.nav__icon-img {
+    width: 30px;
+    opacity: 0.9;
+}
+
+.nav__link:hover .nav__icon-img {
+    filter: invert(100%);
 }
 
 .nav__text {
@@ -319,7 +296,7 @@ defineProps<Props>()
     gap: 0.75rem;
     padding: 1rem;
     border: none;
-    background: white;
+    background: var(--color-light);
     border-radius: 50px;
     color: #ff4444;
     font-size: 1.1rem;
@@ -331,9 +308,8 @@ defineProps<Props>()
 
 .footer__logout:hover {
     background: #ff4444;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 68, 68, 0.3);
+    color: var(--color-light);
+    transform: translateY(-1px);
 }
 
 .logout__icon {
@@ -343,7 +319,7 @@ defineProps<Props>()
 }
 
 .footer__logout:hover .logout__icon {
-    transform: translateX(5px);
+    transform: translateX(3px);
 }
 
 .logout__text {
@@ -351,11 +327,11 @@ defineProps<Props>()
 }
 
 @media (max-width: 1024px) {
-    .burger-menu {
+    .burger__menu {
         width: 400px;
     }
 
-    .burger-menu__title {
+    .burger__menu-title {
         font-size: 2.2rem;
     }
 
@@ -379,11 +355,11 @@ defineProps<Props>()
 }
 
 @media (max-width: 768px) {
-    .burger-menu {
+    .burger__menu {
         width: 380px;
     }
 
-    .burger-menu__close {
+    .burger__menu-close {
         top: 1.25rem;
         right: 1.25rem;
         width: 36px;
@@ -395,11 +371,11 @@ defineProps<Props>()
         height: 18px;
     }
 
-    .burger-menu__content {
+    .burger__menu-content {
         padding: 4rem 1.5rem 1.5rem;
     }
 
-    .burger-menu__title {
+    .burger__menu-title {
         font-size: 2rem;
     }
 
@@ -425,11 +401,15 @@ defineProps<Props>()
 }
 
 @media (max-width: 480px) {
-    .burger-menu {
+    .nav__icon-img {
+        width: 20px;
+    }
+
+    .burger__menu {
         width: 85%;
     }
 
-    .burger-menu__close {
+    .burger__menu-close {
         top: 1rem;
         right: 1rem;
         width: 32px;
@@ -441,15 +421,15 @@ defineProps<Props>()
         height: 16px;
     }
 
-    .burger-menu__content {
+    .burger__menu-content {
         padding: 3.5rem 1.25rem 1.25rem;
     }
 
-    .burger-menu__title {
+    .burger__menu-title {
         font-size: 1.8rem;
     }
 
-    .burger-menu__title::after {
+    .burger__menu-title::after {
         width: 40px;
         height: 3px;
         bottom: -8px;
@@ -491,7 +471,7 @@ defineProps<Props>()
 }
 
 @media (max-width: 360px) {
-    .burger-menu__title {
+    .burger__menu-title {
         font-size: 1.6rem;
     }
 

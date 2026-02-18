@@ -4,6 +4,7 @@ import { createMemoryHistory, createRouter } from 'vue-router'
 
 const routes = [
     { path: '/', component: HomePage },
+    { path: '/profile', component: HomePage },
     { path: '/food/:id', component: FoodPage },
 ]
 

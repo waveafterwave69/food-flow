@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Food } from '@/types'
+import { Food } from '@/types/food'
 
 interface Props {
     food: Food
@@ -56,7 +56,6 @@ defineProps<Props>()
     border-radius: 24px;
     overflow: hidden;
     margin-bottom: 3rem;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.6s ease-out;
 }
 
@@ -79,7 +78,7 @@ defineProps<Props>()
     right: 0;
     padding: 2.5rem;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    color: white;
+    color: var(--color-light);
 }
 
 .food-detail__title {
@@ -117,7 +116,7 @@ defineProps<Props>()
 }
 
 .food-detail__source {
-    color: white;
+    color: var(--color-light);
     text-decoration: none;
     padding: 0.5rem 1rem;
     background: rgba(255, 255, 255, 0.1);

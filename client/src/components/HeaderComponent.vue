@@ -82,7 +82,7 @@ const toggleOpen = () => {
 }
 
 .header__logo-link:hover {
-    transform: scale(1.02);
+    transform: translateY(-1px);
 }
 
 .header__logo {
@@ -94,20 +94,13 @@ const toggleOpen = () => {
 .logo__image-wrapper {
     width: 70px;
     height: 70px;
-    background: white;
+    background: var(--color-light);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border: 3px solid rgba(255, 255, 255, 0.5);
     transition: all 0.3s ease;
-}
-
-.header__logo-link:hover .logo__image-wrapper {
-    transform: rotate(5deg);
-    border-color: white;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .logo__image {
@@ -125,7 +118,7 @@ const toggleOpen = () => {
     font-family: var(--font-second);
     font-weight: 600;
     font-size: 2rem;
-    color: white;
+    color: var(--color-light);
     line-height: 1.2;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     letter-spacing: -0.5px;
@@ -154,25 +147,23 @@ const toggleOpen = () => {
 }
 
 .header__profile:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 .profile__image-wrapper {
     width: 45px;
     height: 45px;
-    background: white;
+    background: var(--color-light);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.5);
     transition: all 0.3s ease;
 }
 
 .header__profile:hover .profile__image-wrapper {
-    border-color: white;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    border-color: var(--color-light);
 }
 
 .profile__image {
@@ -197,10 +188,9 @@ const toggleOpen = () => {
 .menu-button__line {
     width: 100%;
     height: 3px;
-    background: white;
+    background: var(--color-light);
     border-radius: 10px;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 1800px) {

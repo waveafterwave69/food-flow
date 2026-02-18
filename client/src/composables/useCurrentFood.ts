@@ -1,5 +1,5 @@
 import { apiServices } from '@/api/foodApi'
-import { Food } from '@/types'
+import { Food } from '@/types/food'
 import { computed, ref } from 'vue'
 
 export const useCurrentFood = (foodId: string | string[]) => {

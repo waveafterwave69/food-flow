@@ -2,7 +2,7 @@
 import FoodPromo from '@/components/FoodPromo.vue'
 import { useCurrentFood } from '@/composables/useCurrentFood'
 import { useFoodStore } from '@/stores/foodStore'
-import { Food } from '@/types'
+import { Food } from '@/types/food'
 import { convertToEmbedUrl } from '@/utils/utils'
 import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -10,8 +10,8 @@ import { useRouter } from 'vue-router'
 const foodStore = useFoodStore()
 const router = useRouter()
 const foodId = router.currentRoute.value.params.id
-
 const { foodInfo, getFoodInfo, ingredients } = useCurrentFood(foodId)
+
 const food = ref<Food>()
 
 const youtubeEmbedUrl = computed(() => {
@@ -19,25 +19,25 @@ const youtubeEmbedUrl = computed(() => {
     return convertToEmbedUrl(food.value.strYoutube)
 })
 
-onMounted(async () => {
-    await getFoodInfo()
-    food.value = foodInfo.value[0]
-})
-
 const handleIngridientClick = (ingredientName: string) => {
     foodStore.applyIngridient(ingredientName)
     router.push('/')
 }
+
+onMounted(async () => {
+    await getFoodInfo()
+    food.value = foodInfo.value[0]
+})
 </script>
 
 <template>
-    <div class="food-detail">
-        <div v-if="food" class="food-detail__container">
+    <div class="food__detail">
+        <div v-if="food" class="food__detail__container">
             <FoodPromo :food="food" />
-            <div class="food-detail__content">
+            <div class="food__detail__content">
                 <div
                     v-if="ingredients.length > 0"
-                    class="food-detail__ingredients"
+                    class="food__detail__ingredients"
                 >
                     <h2 class="section-title">Ингредиенты</h2>
                     <ul class="ingredients-list">
@@ -56,12 +56,14 @@ const handleIngridientClick = (ingredientName: string) => {
                         </li>
                     </ul>
                 </div>
-                <div class="food-detail__instructions">
+                <div class="food__detail__instructions">
                     <h2 class="section-title">Способ приготовления</h2>
-                    <p class="food-detail__guide">{{ food.strInstructions }}</p>
+                    <p class="food__detail__guide">
+                        {{ food.strInstructions }}
+                    </p>
                 </div>
             </div>
-            <div v-if="youtubeEmbedUrl" class="food-detail__video">
+            <div v-if="youtubeEmbedUrl" class="food__detail__video">
                 <h2 class="section-title">Видео-рецепт</h2>
                 <div class="video-wrapper">
                     <iframe
@@ -85,29 +87,27 @@ const handleIngridientClick = (ingredientName: string) => {
 </template>
 
 <style scoped>
-.food-detail {
+.food__detail {
     min-height: 100vh;
-    background: linear-gradient(180deg, #faf7f2 0%, #ffffff 100%);
     padding: 2rem 1rem;
 }
 
-.food-detail__container {
+.food__detail__container {
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.food-detail__content {
+.food__detail__content {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 2rem;
     margin-bottom: 3rem;
 }
 
-.food-detail__ingredients {
-    background: white;
+.food__detail__ingredients {
+    background: var(--color-light);
     border-radius: 24px;
     padding: 2rem;
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
     animation: fadeIn 0.6s ease-out 0.2s both;
     height: fit-content;
     border: 1px solid rgba(226, 125, 96, 0.1);
@@ -152,7 +152,7 @@ const handleIngridientClick = (ingredientName: string) => {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.25rem;
-    background: var(--color-white);
+    background: var(--color-var(--color-light));
     border-radius: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -161,9 +161,8 @@ const handleIngridientClick = (ingredientName: string) => {
 
 .ingredients-list__item:hover {
     transform: translateX(8px);
-    background: white;
+    background: var(--color-light);
     border-color: var(--color-accent);
-    box-shadow: 0 5px 15px -5px rgba(226, 125, 96, 0.3);
 }
 
 .ingredients-list__name {
@@ -186,30 +185,27 @@ const handleIngridientClick = (ingredientName: string) => {
 .ingredients-list__measure {
     font-size: 0.95rem;
     color: #666;
-    background: white;
+    background: var(--color-light);
     padding: 0.4rem 1rem;
     border-radius: 40px;
     font-weight: 500;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
 }
 
-.food-detail__instructions {
-    background: white;
+.food__detail__instructions {
+    background: var(--color-light);
     border-radius: 24px;
     padding: 2rem;
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
     animation: fadeIn 0.6s ease-out 0.3s both;
     border: 1px solid rgba(226, 125, 96, 0.1);
 }
 
-.food-detail__guide {
+.food__detail__guide {
     font-size: 1.1rem;
     line-height: 1.8;
     margin: 0;
-    white-space: pre-line;
 }
 
-.food-detail__video {
+.food__detail__video {
     margin-top: 2rem;
     animation: fadeIn 0.6s ease-out 0.4s both;
 }
@@ -220,8 +216,7 @@ const handleIngridientClick = (ingredientName: string) => {
     height: 0;
     overflow: hidden;
     border-radius: 24px;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
-    background: var(--color-white);
+    background: var(--color-var(--color-light));
     margin-top: 1.5rem;
 }
 
@@ -235,52 +230,52 @@ const handleIngridientClick = (ingredientName: string) => {
 }
 
 @media (max-width: 1024px) {
-    .food-detail__image {
+    .food__detail__image {
         height: 400px;
     }
 
-    .food-detail__title {
+    .food__detail__title {
         font-size: 3rem;
     }
 
-    .food-detail__content {
+    .food__detail__content {
         gap: 1.5rem;
     }
 
-    .food-detail__ingredients,
-    .food-detail__instructions {
+    .food__detail__ingredients,
+    .food__detail__instructions {
         padding: 1.5rem;
     }
 }
 
 @media (max-width: 768px) {
-    .food-detail {
+    .food__detail {
         padding: 1rem;
     }
 
-    .food-detail__image {
+    .food__detail__image {
         height: 300px;
     }
 
-    .food-detail__hero-overlay {
+    .food__detail__hero-overlay {
         padding: 1.5rem;
     }
 
-    .food-detail__title {
+    .food__detail__title {
         font-size: 2.5rem;
     }
 
-    .food-detail__meta {
+    .food__detail__meta {
         gap: 1rem;
     }
 
-    .food-detail__content {
+    .food__detail__content {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
 
-    .food-detail__category,
-    .food-detail__source {
+    .food__detail__category,
+    .food__detail__source {
         font-size: 1rem;
     }
 
@@ -302,26 +297,26 @@ const handleIngridientClick = (ingredientName: string) => {
         padding: 0.3rem 0.875rem;
     }
 
-    .food-detail__guide {
+    .food__detail__guide {
         font-size: 1rem;
         line-height: 1.7;
     }
 }
 
 @media (max-width: 480px) {
-    .food-detail__image {
+    .food__detail__image {
         height: 250px;
     }
 
-    .food-detail__title {
+    .food__detail__title {
         font-size: 2rem;
     }
 
-    .food-detail__hero-overlay {
+    .food__detail__hero-overlay {
         padding: 1rem;
     }
 
-    .food-detail__meta {
+    .food__detail__meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
@@ -335,8 +330,8 @@ const handleIngridientClick = (ingredientName: string) => {
         width: 40px;
     }
 
-    .food-detail__ingredients,
-    .food-detail__instructions {
+    .food__detail__ingredients,
+    .food__detail__instructions {
         padding: 1.25rem;
         border-radius: 20px;
     }
@@ -351,7 +346,7 @@ const handleIngridientClick = (ingredientName: string) => {
 }
 
 @media (max-width: 360px) {
-    .food-detail__title {
+    .food__detail__title {
         font-size: 1.75rem;
     }
 
