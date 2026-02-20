@@ -1,7 +1,7 @@
 import { api } from './api'
 
 export const apiServices = {
-    getFoodByName: async (name: string = 'a') => {
+    getFoodByName: async (name: string) => {
         try {
             const response = await api.get(`search.php?s=${name}`)
             return response.data.meals
