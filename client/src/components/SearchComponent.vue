@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFoodStore } from '@/stores/foodStore'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import BackPanel from './BackPanel.vue'
 
 const foodStore = useFoodStore()

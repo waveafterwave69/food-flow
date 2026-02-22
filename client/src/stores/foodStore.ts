@@ -1,9 +1,9 @@
 import { apiServices } from '@/api/foodApi'
-import { useDebounce } from '@/composables/useDebounce'
 import { CategoryItem } from '@/types/category'
 import { Food } from '@/types/food'
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
+import { useDebounce } from 'wave-hooks'
 
 export const useFoodStore = defineStore('food', () => {
     const foodData = ref<Food[]>([])
@@ -68,7 +68,7 @@ export const useFoodStore = defineStore('food', () => {
         }
     }
 
-    const { debounceFunc, cleanup } = useDebounce(fetchFood, 500)
+    const { debounceFunc } = useDebounce(fetchFood, 500)
 
     watch(searchValue, () => {
         debounceFunc()
@@ -132,7 +132,6 @@ export const useFoodStore = defineStore('food', () => {
         fetchFood,
         resetSearch,
         resetAllFilters,
-        cleanup,
         ingridientValue,
         applyIngridient,
         resetIngridient,
